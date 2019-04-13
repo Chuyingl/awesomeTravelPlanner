@@ -93,19 +93,7 @@ export class TravelStartDayInput extends React.Component {
             } else {
                 break;
             }
-            console.log("obj" );
-            // update prev to startPoints
-            this.startPoints[this.prevDay] = obj;
-            for (let i = this.prevDay + 1; i < this.props.totalDays; i++) {
-                if (Object.keys(this.startPoints[i]).length === 0) {
-                    this.startPoints[i] = this.startPoints[i - 1];
-                } else {
-                    break;
-                }
-            }
-    
         }
-    } 
         // clear autocomplete input
         this.auto.autocompleteInput.current.value = "";
 
@@ -153,7 +141,6 @@ export class TravelStartDayInput extends React.Component {
 
 
         //TODO: validation all days
-    }
 
     }
 
