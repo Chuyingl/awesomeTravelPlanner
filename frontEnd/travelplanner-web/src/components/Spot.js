@@ -33,7 +33,6 @@ export default class Spot extends React.Component {
             >
               <img src={this.props.url} alt={this.props.name} height='150px' width='150px' />
               <div classname='card-spot-name'><p>{this.props.name}</p></div>
-              <p>{this.props.start + ' ~ ' + this.props.end}</p>
               <a href={`https://en.wikipedia.org/wiki/${this.props.name}`} target="_blank">Learn More</a>
             </Card>
           </Panel>
@@ -45,3 +44,4 @@ export default class Spot extends React.Component {
   }
 }
 
+//<p>{this.props.start + ' ~ ' + this.props.end}</p>

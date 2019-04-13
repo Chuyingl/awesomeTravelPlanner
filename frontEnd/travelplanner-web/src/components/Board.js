@@ -7,7 +7,7 @@ import SideTimeline from './SideTimeline';
 import DayList from './DayList';
 import { arrayMove } from 'react-sortable-hoc';
 import { API_ROOT } from "../constants"
-import { Button,notification } from 'antd'
+import { Button, notification } from 'antd'
 
 /*const jsonArray = [
     {
@@ -90,15 +90,19 @@ const totalDays = 2;
 ////////////////////////////Replace consts above using props.varname/////////////////////////////////////////////////
 const openNotificationWithIcon = (type) => {
     notification[type]({
-      message: 'Successful!',
-      description: "You've saved the routes successfully!"
+        message: 'Successful!',
+        description: "You've saved the routes successfully!"
     });
-  };
+};
 export default class Board extends React.Component {
     constructor(props) {
         super(props);
         var spots = this.getSpots();
         //console.log('points:', this.props.points);
+
+
+
+
 
         function compare(obj1, obj2) {
             var day1 = obj1['day'];
@@ -127,7 +131,7 @@ export default class Board extends React.Component {
         var days = new Array();
         var refs = new Array();
         var rowrefs = new Array();
-       
+
         for (var i = 0; i <= this.props.totalDays - 1; i++) {
             days[i] = spots.filter(spot => spot.day && spot.day === (i + 1));
             refs[i] = React.createRef();
@@ -136,13 +140,13 @@ export default class Board extends React.Component {
         for (var i = 1; i <= 5; i++) {
             rowrefs[i] = React.createRef();
         }
-        
+
         days = days.map(day => day.map((spot, index) => {
             spot.intradayIndex = index;
             return spot;
         }));
-        
-        
+
+
         this.state = {
             days: days,
             col: refs,
@@ -160,18 +164,25 @@ export default class Board extends React.Component {
     }
 
     getSpots() {
-        return this.props.points.filter(spot => spot.type && spot.type != 'start').map(spotDetails => ({
+        return this.props.points.filter(spot => spot.type && spot.type != 'start').map(spotDetails =>{
+            return ({
             placeID: spotDetails.placeID,
             lat: spotDetails.lat,
             lon: spotDetails.lon,
             name: spotDetails.name,
             url: spotDetails.imageURL,
             day: spotDetails.day + 1,
-            intradayIndex: spotDetails.intradayIndex-1,
+            intradayIndex: spotDetails.intradayIndex - 1,
             type: spotDetails.type,
-        }));
+          });
+
+        });
     }
     componentDidMount() {
+
+
+
+
 
         function array_move(arr, old_index, new_index) {
             while (old_index < 0) {
@@ -198,7 +209,7 @@ export default class Board extends React.Component {
         var rowcontainer = this.state.row.map((row) => {
             return row.current;
         });
-      
+
         var drake_spots = Dragula([
             ...colcontainer
         ]);
@@ -243,7 +254,7 @@ export default class Board extends React.Component {
                 });
             }
 
-            console.log('updated state:',this.state);
+            console.log('updated state:', this.state);
             this.setState({
                 days: this.state.days,
             });
@@ -281,7 +292,7 @@ export default class Board extends React.Component {
             return row.current;
         });
         var drake_days = Dragula([
-         //   ...rowcontainer
+            //   ...rowcontainer
         ],
             {
                 invalid: function (el, handle) {
@@ -365,7 +376,7 @@ export default class Board extends React.Component {
                 });
             }
 
-            console.log('updated state:',this.state);
+            console.log('updated state:', this.state);
             this.setState({
                 days: this.state.days,
             });
@@ -381,7 +392,7 @@ export default class Board extends React.Component {
         for (let i = 0; i < this.props.totalDays; i++) {
             for (let j = 0; j < this.state.days[i].length; j++) {
                 const { placeID, day, intradayIndex } = this.state.days[i][j];
-                points.push({ placeID, day: day - 1, intradayIndex : intradayIndex + 1});
+                points.push({ placeID, day: day - 1, intradayIndex: intradayIndex + 1 });
             }
         }
         this.props.homeBoardCallback(points);
@@ -392,19 +403,19 @@ export default class Board extends React.Component {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then((response)=>{
+        }).then((response) => {
             console.log(response.status)
-            if(response.status===200){
-              openNotificationWithIcon('success')
+            if (response.status === 200) {
+                openNotificationWithIcon('success')
             }
-            
-          }  
-          )
-        .catch((e) => {
-            console.log(e.message);
-        });
+
+        }
+        )
+            .catch((e) => {
+                console.log(e.message);
+            });
     }
-  
+
     printButtonPressed = () => {
         window.print();
     }
@@ -413,21 +424,21 @@ export default class Board extends React.Component {
         //console.log(this.state.days);
         return (
 
-            <div className="DetailPage" style={{ display:"flex", float:"left",marginTop:"35px" }}>
-           
-                 <div className="DayList" style={{height:"700px", overflow:"auto"}}>
-                <DayList dayspot={this.state.days} colrefs={this.swimlanes.day} rowrefs={this.rows.row} />
-                <div className="detail_button_group" >
-                <Button className="button-font" onClick={this.saveButtonPressed}>Save</Button>
-                <Button className="button-font" onClick={this.printButtonPressed} id='printbutton'>Print</Button>      
-                 </div>
+            <div className="DetailPage" style={{ display: "flex", float: "left", marginTop: "35px" }}>
+
+                <div className="DayList" style={{ height: "700px", overflow: "auto" }}>
+                    <DayList dayspot={this.state.days} colrefs={this.swimlanes.day} rowrefs={this.rows.row} />
+                    <div className="detail_button_group" >
+                        <Button className="button-font" onClick={this.saveButtonPressed}>Save</Button>
+                        <Button className="button-font" onClick={this.printButtonPressed} id='printbutton'>Print</Button>
+                    </div>
                 </div>
-                <div className="timeline" style={{ height:"700px", overflow:"auto"}}>
-                <SideTimeline  days = {this.state.days}/>
+                <div className="timeline" style={{ height: "700px", overflow: "auto" }}>
+                    <SideTimeline days={this.state.days} />
                 </div>
-                 
+
             </div>
-            
+
         );
     }
 
