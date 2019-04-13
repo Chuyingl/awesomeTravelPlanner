@@ -1,14 +1,17 @@
 @import url('https://fonts.googleapis.com/css?family=Indie+Flower|Satisfy');
-/*body{
-  background: url("../assets/images/250fed2ae2ff8059536a5ec545ed23c7.jpg");
+body{
+  background: url("../assets/images/250fed2ae2ff8059536a5ec545ed23c8_副本.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  background-attachment:fixed
-}*/
+  background-attachment:fixed;
+}
 
 .App {
   text-align: center;
+  position: relative; 
+   
 }
+
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -18,7 +21,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color:#121b30;
   height: 80px;
 
   color: white;
@@ -34,14 +37,26 @@
   font-family: 'YourFontName'; /*a name to be used later*/
   src: url('http://domain.com/fonts/font.ttf'); /*URL to font*/
 }
+/*
+.Page{
+  background-image: url("../assets/images/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment:fixed;
+  height:100%;
+}
+*/
+
 
 .App-title {
   font-size: 4em;
-  font-family:  'Satisfy', cursive;
   margin: 10;
   float: left;
   padding-top: 10px;
   color: #fff;
+}
+.satisfy{
+  font-family:  'Satisfy', cursive;
 }
 
 
@@ -60,9 +75,30 @@
 
 
 .nav {
-  padding: 12px 48px 0 48px;
+  display: flex;
+  padding: 0 px 10px 0 10px;
+}
+#nav_contain{
+  top: 5px;
+  border-radius: 4px;
+  border-width: 3px;
+  position: absolute;
+ 
+  left: 100px;
+  background-color: white;
 }
 
 .register-item{
   color: #61dafb;
+}
+.top_container{
+  border-top-style: line;
+  top:48px;
+  border-top-color: #9a9ea7;
+  border-width: 4px;
+  position: relative;
+  height:500px;
+  width:"100%";
+  display:"flex";
+ 
 }

@@ -8,7 +8,7 @@ export class Header extends React.Component {
         return (
             <header className="App-header">
 
-                <h1 className="App-title">{' '}Travel Planner</h1>
+                <h1 className="App-title satisfy">{' '}Travel Planner</h1>
                 {
                     this.props.isLoggedIn ?
                         <a onClick={this.props.handleLogout} className="logout">

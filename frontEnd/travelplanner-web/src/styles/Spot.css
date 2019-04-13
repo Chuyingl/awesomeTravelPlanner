@@ -1,19 +1,22 @@
+@import url('https://fonts.googleapis.com/css?family=Poiret+One');
 .ant-collapse-header{
-  color : #FFE4E1 !important;
+  color : rgb(255, 255, 255) !important;
   font-size: 20px;
+  font-family: 'Poiret One', cursive;
+
 }
 
 .ant-card-head-title{
-  color : #FFE4E1 !important;
+  color : rgb(255, 255, 255) !important;
 
 }
 
 .ant-card-body{
-  color : #FFE4E1 !important;
+  color : rgb(12, 12, 12) !important;
 
 }
 
 .ant-card-bordered{
-    border: 0px !important;
+    border: 1px !important;
 }
 

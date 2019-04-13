@@ -94,8 +94,8 @@ class RegisterationForm extends React.Component {
         return (
             <Form className="register-form" {...formItemLayout} onSubmit={this.handleSubmit}>
                  
-                  <Form.Item style={{marginRight:"auto"}}>
-                   <div style={{color:"black", float:"left", padding:"10px", fontWeight:10}}>*Username</div>
+                <Form.Item style={{marginLeft:"auto"}}>
+                   <div style={{color:"black", float:"left", fontWeight:10}}>*Username</div>
                     {getFieldDecorator('username', {
                         rules: [{required: true, message: 'Please input your nickname!', whitespace: true}],
                     })(
@@ -105,7 +105,7 @@ class RegisterationForm extends React.Component {
                    </Form.Item>
                 
                 <Form.Item class="register-item" style={{marginLeft:"auto"}}>
-                <div style={{color:"black", float:"left", padding:"10px", fontWeight:10}}>*Password</div>
+                <div style={{color:"black", float:"left", fontWeight:10}}>*Password</div>
                     {getFieldDecorator('password', {
                         rules: [{
                             required: true, message: 'Please input your password!',
@@ -142,7 +142,7 @@ class RegisterationForm extends React.Component {
                 </Form.Item>
                 
                 <Form.Item class="register-item">
-                <div style={{color:"black", float:"left", padding:"10px", fontWeight:10}}>*Last name</div><br/>
+                <div style={{color:"black", float:"left",fontWeight:10}}>*Last name</div><br/>
                     {getFieldDecorator('lastname', {
                         rules: [{required: true, message: 'Please input your lastname!', whitespace: true}],
                     })(

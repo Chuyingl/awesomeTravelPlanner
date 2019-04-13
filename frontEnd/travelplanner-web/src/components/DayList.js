@@ -20,7 +20,7 @@ export default class DayList extends React.Component {
                     if (dayspots[daynum-1] === undefined ) continue;
                     row.push(
                         <div className="col-md-4" id={daynum} key={Math.random()}>
-                            <Swimlane name={'Day ' + daynum} spots={dayspots[daynum - 1]} dragulaRef={colrefs[daynum - 1]} id={daynum}/>
+                            <Swimlane className="banger" name={'Day ' + daynum} spots={dayspots[daynum - 1]} dragulaRef={colrefs[daynum - 1]} id={daynum}/>
                         </div>
                     );
                 }

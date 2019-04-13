@@ -16,7 +16,7 @@ export default class SideTimeline extends React.Component {
                 if (Days[i] === undefined) continue;
                 var innerstr;
                 innerstr = 'Day ' + (i + 1);
-                list.push(<Timeline.Item classname='day-title' dot={<Icon type="pushpin" theme="twoTone" style={{ fontSize: '16px' }} />} >{'Day ' + (i + 1)}</Timeline.Item>);
+                list.push(<Timeline.Item classname='day-title' dot={<Icon type="pushpin" theme="twoTone" style={{ fontSize: '16px', fontWeight:'bold'}} />} >{'Day ' + (i + 1)}</Timeline.Item>);
                 // console.log(Days[i]);    
                 for (var j = 0; j <= Days[i].length; j++) {
                     if (Days[i][j] === undefined) continue;

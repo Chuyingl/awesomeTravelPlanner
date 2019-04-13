@@ -1,0 +1,11 @@
+.info{
+   position: absolute;
+   height: 500px;
+   width: 35%;
+   left: 65%;
+   overflow: auto;
+   
+}
+#overview-info{
+   left: 70%;
+}

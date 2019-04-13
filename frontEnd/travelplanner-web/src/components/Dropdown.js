@@ -8,16 +8,14 @@ const { Option } = Select;
 export class Dropdown extends React.Component {
 
     handleChange = (value) => {
-        this.props.handleDropdownClick(value);
+        this.props.onDropdownClick(value);
     }
     render () {
         return (
 
-            <div className="Day">
-                <Form {...formItemLayout}>
-                    <Form.Item
-                        label="Choose Day"
-                    >
+            <div className="Day" >
+                <Form {...formItemLayout} >
+                    <Form.Item>
                         <Select className="Day" defaultValue="1" onChange={this.handleChange}>
                             {
                                 [...Array(this.props.totalDays).keys()].map((i) =>

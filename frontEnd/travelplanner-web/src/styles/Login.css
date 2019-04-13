@@ -15,4 +15,10 @@
   background-color:  #282c34;
   margin-left: auto;
   margin-right: auto;
+ 
+}
+.main_page{
+  padding: 30px;
+  background-image: url("../assets/images/250fed2ae2ff8059536a5ec545ed23c8.jpg");
+  height: 700px;
 }

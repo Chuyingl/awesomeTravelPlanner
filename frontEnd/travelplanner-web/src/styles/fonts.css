@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=Bangers');
+@import url('https://fonts.googleapis.com/css?family=Fredericka+the+Great');
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface');
+@import url('https://fonts.googleapis.com/css?family=Righteous');
+@import url('https://fonts.googleapis.com/css?family=Oleo+Script');
+
+.banger{
+    font-family: 'Oleo Script', cursive;
+    font-size: 20px;
+}
+.freder{
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 20px;
+    color:black
+}
+.button-font{
+    font-family: 'Righteous', cursive;
+    font-size: 15px;
+    font-weight: thin;
+    color: white;
+    background-color:#00033a
+
+}
+#myTab{
+    font-family: 'Righteous', cursive;
+    font-size: 15px;
+    font-weight: thin;
+    color:#00033a;
+    background-color:white;
+    border: 3px;
+}

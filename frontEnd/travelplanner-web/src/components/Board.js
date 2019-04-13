@@ -7,7 +7,7 @@ import SideTimeline from './SideTimeline';
 import DayList from './DayList';
 import { arrayMove } from 'react-sortable-hoc';
 import { API_ROOT } from "../constants"
-import { Button } from 'antd'
+import { Button,notification } from 'antd'
 
 /*const jsonArray = [
     {
@@ -85,11 +85,15 @@ import { Button } from 'antd'
         "type": "poi"
     }
 ]
-
 const totalDays = 2;
 */
 ////////////////////////////Replace consts above using props.varname/////////////////////////////////////////////////
-
+const openNotificationWithIcon = (type) => {
+    notification[type]({
+      message: 'Successful!',
+      description: "You've saved the routes successfully!"
+    });
+  };
 export default class Board extends React.Component {
     constructor(props) {
         super(props);
@@ -388,7 +392,15 @@ export default class Board extends React.Component {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).catch((e) => {
+        }).then((response)=>{
+            console.log(response.status)
+            if(response.status===200){
+              openNotificationWithIcon('success')
+            }
+            
+          }  
+          )
+        .catch((e) => {
             console.log(e.message);
         });
     }
@@ -401,11 +413,19 @@ export default class Board extends React.Component {
         //console.log(this.state.days);
         return (
 
-            <div className="DetailPage">
+            <div className="DetailPage" style={{ display:"flex", float:"left",marginTop:"35px" }}>
+           
+                 <div className="DayList" style={{height:"700px", overflow:"auto"}}>
                 <DayList dayspot={this.state.days} colrefs={this.swimlanes.day} rowrefs={this.rows.row} />
-                <SideTimeline days = {this.state.days}/>
-                <button onClick={this.saveButtonPressed}>Save</button>
-                <button onClick={this.printButtonPressed} id='printbutton'>Print</button>      
+                <div className="detail_button_group" >
+                <Button className="button-font" onClick={this.saveButtonPressed}>Save</Button>
+                <Button className="button-font" onClick={this.printButtonPressed} id='printbutton'>Print</Button>      
+                 </div>
+                </div>
+                <div className="timeline" style={{ height:"700px", overflow:"auto"}}>
+                <SideTimeline  days = {this.state.days}/>
+                </div>
+                 
             </div>
             
         );

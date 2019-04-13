@@ -1,7 +1,7 @@
 /*global google*/
 import React from 'react';
 import { API_ROOT } from "../constants"
-import { Button, Radio, Icon } from 'antd';
+import { Button, Radio, Icon, notification } from 'antd';
 import { Rectangle, withScriptjs, withGoogleMap, GoogleMap, Marker, Polyline } from "react-google-maps"
 import { WrappedTravelMap } from "./TravelMap";
 import Board from "./Board";
@@ -9,8 +9,28 @@ import RatioButtons from "./RatioButtons";
 import  {SortableComponent} from "./SortableList"
 import {arrayMove} from 'array-move'
 import Background from '../assets/images/background.jpg';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {UserTour} from '../components/UserTour';
+import Joyride ,{ ACTIONS, EVENTS, STATUS}  from 'react-joyride';
 
 
+const openNotificationWithIcon = (type) => {
+  notification[type]({
+    message: 'Successful!',
+    description: "You've saved the routes successfully!"
+  });
+};
+const openNotificationWithIcon1 = (type) => {
+  notification[type]({
+    message: 'Click and see travel plan!',
+  });
+};
+const openNotificationWithIcon2 = (type,day) => {
+  notification[type]({
+    message: `There is no plan for day ${day}!`,
+  });
+};
 const testingGeneratedPoints = [
 
   {placeID: "ChIJgzD7uFVYwokRXCoEdvGu-av", type: "poi", lat: 40.7829, lon: -73.9654, name: "central park", imageURL: "https://thenypost.files.wordpress.com/2018/07/central-park-conservancy.jpg?quality=90&strip=all&w=618&h=410&crop=1", day:0, intradayIndex: 1},
@@ -23,6 +43,26 @@ const testingGeneratedPoints = [
   {placeID: "ChIJgzcdsFVYwokRXCoEdvGu-aA", type: "start", lat: 40.7829, lon: -73.9654, name: "bb", imageURL: "", day:1, intradayIndex: 0},
   {placeID: "ChIJgzD7uFfdskRXCoEdvGud-dv", type: "start", lat: 40.7829, lon: -73.9654, name: "yy", imageURL: "", day:2, intradayIndex: 0},
 ];
+const steps= [
+  {
+    target: '.help',
+    content: 'You are at travel plan page now! You can get recommended routes and costomize them here.',
+  },
+  {
+    target: '#button-group',
+    content: 'You can scroll and find the day, than your routes will show on the map!',
+  },
+  {
+    target: '.info',
+    content: 'The travel plan for the day are shown on here, you can drag the place and change the vist order that you want',
+  },
+  {
+    target: '.save',
+    content: 'You can save your current plan by clicking save',
+  },
+  
+  
+];
 
 export class TravelPlan extends React.Component {
     SelectedPoints = [];
@@ -31,6 +71,12 @@ export class TravelPlan extends React.Component {
     paths=[];
     directions={};
     directions1={};
+    toursteps=[];
+    run=true;
+
+    stepIndex=0;
+   
+    
     
     state = {
         // for testing
@@ -40,10 +86,14 @@ export class TravelPlan extends React.Component {
 
     componentWillMount(){
         //const testingGeneratedPoints=this.props.points;
-        //var temp=this.props.points.filter(place => (place.day+1).toString() === "1");
+        var temp=this.props.points.filter(place => (place.day+1).toString() === "1");
         //var temp=testingGeneratedPoints.filter(place => (place.day+1).toString() === "1");
         //console.log(temp)
-        //start=temp.filter(place => (place.type) === "start");
+        var start=temp.filter(place => (place.type) === "start");
+        var legs=temp.filter(place => (place.type) === "poi")
+        if(legs.length===0){
+          openNotificationWithIcon2('info',1);
+        }
         //sort by index_in the day 
         //var temp2=[]
         //temp.filter(place => (place.type) === "poi").sort((a, b) => b.intradayIndex - a.intradayIndex);
@@ -65,34 +115,80 @@ export class TravelPlan extends React.Component {
         //}
         //));
        //console.log(temp3);
-       /*const DirectionsService = new google.maps.DirectionsService();
-       DirectionsService.route({
-         //origin: new google.maps.LatLng( 40.7829,-73.9654),
-         //origin:new google.maps.LatLng(41.8507300, -87.6512600),
-         origin: ori,
-          waypoints: temp3,
-         //destination: new google.maps.LatLng(41.8525800, -87.6514100),
-         destination: des,
-         travelMode: google.maps.TravelMode.DRIVING,
-       }, (result, status) => {
-         if (status === google.maps.DirectionsStatus.OK) {
-           this.setState({
-             directions: {...result},
-             markers: false
-           })
-           //console.log(result)
-         } else {
-           console.log(`error fetching directions ${result}`);
-         }
-       }); */
         this.setState(
             {
                 points: this.props.points,
-
+                start: start,
+                SelectedPoints: temp,
+                legs:legs,
              }
         )
     
   }
+  componentDidMount() {
+         //console.log(this.state.SelectedPoints)
+         var start=[];
+         var legs=[];
+         var temp = [];
+         var temp2 = [];
+         var temp3=[];
+         var startpoint=[];
+         this.toursteps=[];
+         if(legs==null){
+           openNotificationWithIcon2('info',1);
+         }
+         else{
+         temp=this.state.legs;
+         temp.sort((a, b) => b.intradayIndex - a.intradayIndex);
+         start=this.state.start
+         console.log(legs)
+         //temp.filter(place => (place.type) === "poi").sort((a, b) => b.intradayIndex - a.intradayIndex);
+         start.map((dayplaces, i) =>
+             startpoint.push({ 'lat': dayplaces.lat, 'lng': dayplaces.lon })
+         );
+         temp.map((dayplaces, i) =>
+             temp2.push({ 'lat': dayplaces.lat, 'lng': dayplaces.lon })
+         );
+         if(temp2!=null&& typeof temp2!= 'undefined'){
+          const ori = startpoint[0];
+          const des = temp2.length >= 0 ? temp2[temp2.length-1]:ori;
+          var midpoints= [];
+          var temp3=[];
+          midpoints= temp2.length>0?temp2.slice(0,-1): []
+          midpoints.map((point=>{
+             var mid={}
+             mid["location"] ={"lat":point.lat, "lng":point.lng};
+             mid["stopover"]=true;
+             temp3.push(mid);
+          }
+          ));
+           const DirectionsService = new google.maps.DirectionsService();
+             DirectionsService.route({
+                //origin: new google.maps.LatLng( 40.7829,-73.9654),
+                 //origin:new google.maps.LatLng(41.8507300, -87.6512600),
+                 origin: ori,
+                 waypoints: temp3,
+                //destination: new google.maps.LatLng(41.8525800, -87.6514100),
+                destination: des,
+                travelMode: google.maps.TravelMode.DRIVING,
+                }, (result, status) => {
+               if (status === google.maps.DirectionsStatus.OK) {
+                this.setState({
+                  directions: {...result},
+                  markers: false
+                })
+         //console.log(result)
+       } else {
+         console.log(`error fetching directions ${result}`);
+         openNotificationWithIcon1('info')
+         
+       }
+     });
+  }
+}
+  }
+  
+    
     
     handeldrop= (e) => {
         //console.log(e);
@@ -112,30 +208,6 @@ export class TravelPlan extends React.Component {
         );
          temp.map((dayplaces, i) => temp2.push({ 'lat': dayplaces.lat, 'lng': dayplaces.lon })
         );
-        //update connection between start point to first leg
-        //connect start point with the first place
-        const ori = startpoint[0];
-        const des = temp2[0];
-       //console.log(des);
-       const DirectionsService = new google.maps.DirectionsService();
-       DirectionsService.route({
-          //origin: new google.maps.LatLng( 40.7829,-73.9654),
-         //origin:new google.maps.LatLng(41.8507300, -87.6512600),
-         origin: ori,
-         //destination: new google.maps.LatLng(41.8525800, -87.6514100),
-         destination: des,
-         travelMode: google.maps.TravelMode.DRIVING,
-       }, (result1, status) => {
-         if (status === google.maps.DirectionsStatus.OK) {
-           this.setState({
-             directions1: {...result1},
-             markers: false
-           })
-            //console.log(result1)
-         } else {
-           console.log(`error fetching directions ${result1}`);
-         }
-       });
         //console.log(temp3);
         if(temp2!=null&& typeof temp2!= 'undefined'){
             const ori = startpoint[0];
@@ -150,7 +222,7 @@ export class TravelPlan extends React.Component {
                temp3.push(mid);
             }
             ));
-       //const DirectionsService = new google.maps.DirectionsService();
+       const DirectionsService = new google.maps.DirectionsService();
        DirectionsService.route({
          //origin: new google.maps.LatLng( 40.7829,-73.9654),
          //origin:new google.maps.LatLng(41.8507300, -87.6512600),
@@ -190,9 +262,19 @@ export class TravelPlan extends React.Component {
         //var temp4=[];
         temp=this.state.points.filter(place => (place.day+1).toString() === e.target.value);
         //sort by index_in the day 
+        console.log(`temp is ${temp.length}`);
         temp.sort((a, b) => b.intradayIndex - a.intradayIndex);
         start=temp.filter(place => (place.type) === "start");
         legs=temp.filter(place => (place.type) === "poi")
+        if(legs.length===0){
+          console.log("there is no place");
+          openNotificationWithIcon2('info',e.target.value);
+          this.setState({
+            directions: null,
+            markers: false
+          })
+         }
+        else{
         legs.sort((a, b) => a.intradayIndex - b.intradayIndex);
         console.log(legs)
         //temp.filter(place => (place.type) === "poi").sort((a, b) => b.intradayIndex - a.intradayIndex);
@@ -273,7 +355,33 @@ export class TravelPlan extends React.Component {
         console.log("first load")
     }
    }
+  }
+  handleJoyrideCallback = data => {
+    this.setState( {
+        toursteps: steps,
+        run:true
+      }
+       ); 
+    const { action, index, status, type } = data;
 
+    if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
+      // Update state to advance the tour
+      this.setState({ stepIndex: index + (action === ACTIONS.PREV ? -1 : 1) });
+    }
+
+    console.groupCollapsed(type);
+    console.log(data); //eslint-disable-line no-console
+    console.groupEnd();
+  };
+
+  closeHelp =()=>{
+    this.setState( {
+      toursteps:[]
+    })
+    console.log(this.state.run);
+    console.log(this.state.toursteps);
+  };
+       
     saveButtonClicked = () => {
       const endPoint = 'UpdatePaths';
         if(this.state.legs!=null){
@@ -303,28 +411,55 @@ export class TravelPlan extends React.Component {
             headers: {
                 'Content-Type':'application/json'
             }
-        }).catch((e) => {
+        }).then((response)=>{
+          console.log(response.status)
+          if(response.status===200){
+            openNotificationWithIcon('success')
+          }
+          
+        }  
+        )
+        .catch((e) => {
             console.log(e.message);
+
         });
     }
-
+    
 
     render() {
+       
         //const Background= "D:\travel\awesomeTravelPlanner\frontEnd\travelplanner-web\src\assets\images\background.jpg"
         return (
-            <div style={{display:`flex`
-             }}>
-                <div id="map content" style={{ float:`left`, width :`800px`,height:`500px`}}>
-                <div>
-                    <Radio.Group onChange={this.filtermarkers}>
+           <div className="top_container">
+                 {typeof(this.state.toursteps)!=="undefined"&&this.state.toursteps!==[]&&<Joyride
+                  styles={{
+                    options: {
+                      arrowColor: '#4F6E96',
+                      backgroundColor: 'white',
+                      primaryColor: '#4F6E96',
+                      textColor: 'black',
+                      width: 300,
+                      zIndex: 1000,
+                    }
+                  }}
+                  callback={this.handleJoyrideCallback}
+                  run={this.state.run}
+                  stepIndex={this.state.stepIndex}
+                  steps={this.state.toursteps}
+                  continuous={true} />}
+                <div className="  contain-color "  style={{ position:"absolute",top:"30px",height:"250px", left:"2px","border-radius": "5px",display:"flex", overflow:"auto"}} >
+                    <Radio.Group id="button-group" onChange={this.filtermarkers} size={"large"} >
                     {
                      [...Array(this.props.totalDays).keys()].map(i =>
-                      <Radio.Button key={i} value={(i+1).toString()}>Day{i+1}</Radio.Button>
+                      <div style={{margin:"4px", border:"solid", borderColor:"#555B6E" }}>
+                      <Radio.Button className="contain-color font-white " style={{  border: "none", padding:"7px", "border-radius": "0px",
+                      }} key={i} value={(i+1).toString()}>Day{i+1}</Radio.Button>
+                      </div> 
                      )
                    }
                     </Radio.Group>
                 </div>
-                <div>
+                <div className="map_container" id="plan_map">
                 <WrappedTravelMap
                     googleMapURL={"https://maps.googleapis.com/maps/api/js?key=AIzaSyCvUbj7eqr0u0RFbaNFGU9JAWYAoi5JmwY&v=3.exp&libraries=geometry,drawing,places"}
                     loadingElement={<div style={{ height: `100%` }} />}
@@ -338,22 +473,24 @@ export class TravelPlan extends React.Component {
                     //markers={this.start_points.markers}
                 />
                 </div>
-                </div>
-                <div id ="board" style={{ float:`right`,width:`500px`, height:`600px`,backgroundColor:`white`}} >
-                    <div style={{ width:`500px`, height:`400px`}}>
+                <div className="info contain-color font-white"  >
+                    
                     {
                       (this.state.legs||typeof(this.state.legs)!="undefined")&&(
-                        <SortableComponent items={this.state.legs} change={this.handeldrop} start={this.state.start} />
+                        <SortableComponent className="font-white" items={this.state.legs} change={this.handeldrop} start={this.state.start} />
                       )  
                     }
-                    </div>
                     <div>
-                        <Button onClick={this.saveButtonClicked}>Save</Button>
-
-                    </div>
-                 </div>  
-                 
+                        <Button className="button-font save" onClick={this.saveButtonClicked}>Save</Button>
+                    
+                 </div>
+                 <div className="help" style={{ position:"absolute", bottom:"40px", marginLeft:"10px", textAlign:"left"}}><Button onClick={this.handleJoyrideCallback}><Icon type="question-circle"/>Get help from here!</Button> </div> 
+                      
+                 </div> 
             </div>
         );
     }
   }
+
+ 
+  

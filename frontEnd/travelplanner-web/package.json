@@ -13,13 +13,16 @@
     "react-dom": "^16.8.4",
     "react-dragula": "^1.1.17",
     "react-google-maps": "^9.4.5",
+    "react-joyride": "^2.0.5",
     "react-load-script": "0.0.6",
     "react-native": "^0.59.1",
     "react-native-maps": "^0.23.0",
     "react-native-maps-directions": "^1.6.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
-    "react-sortable-hoc": "^1.8.3"
+    "react-sortable-hoc": "^1.8.3",
+    "react-toastify": "^5.0.0",
+    "react-user-tour": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

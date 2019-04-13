@@ -3,7 +3,8 @@ import React from 'react';
 export default class Navigation extends React.Component {
   render() {
     return (
-      <ul className="nav nav-tabs" id="myTab" role="tablist">
+      <div className="nav" >
+      <ul className=" nav nav-tabs "  id="myTab" role="tablist">
         <li className="nav-item">
           <a className={"nav-link " + (this.props.selectedTab === 'traveloverview' ? 'active': '')}
              onClick={() => this.props.onClick("traveloverview")}
@@ -45,6 +46,7 @@ export default class Navigation extends React.Component {
               </li>
           }
       </ul>
+      </div>
     );
   }
 }

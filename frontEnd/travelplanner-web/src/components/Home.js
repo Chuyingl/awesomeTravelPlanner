@@ -4,24 +4,24 @@ import Navigation from './Navigation';
 import Board from './Board';
 import { TravelPlan } from './TravelPlan';
 import '../styles/App.css';
-import {TravelOverview} from "./TravelOverview"
-import {TestPage} from './TestPage';
-import {API_ROOT} from "../constants"
+import {TravelOverview} from './TravelOverview'
+import {API_ROOT} from "../constants";
+import {Spin} from 'antd';
 
 
 export class Home extends React.Component{
 
     state = {
         selectedTab: 'traveloverview',
-        isDone: false, // fetch finished
+        fetchFinished: false,
         disableTabs: true
     };
 
     points = [];
     totalDays = 0;
-    isDayOptionsChosen = false;
 
-    componentWillMount() {
+    componentDidMount() {
+        console.log("Home did mount");
         const endPoint = 'GeneratePaths';
         fetch(`${API_ROOT}/${endPoint}?userID=${this.props.userID}`, {
             method: 'GET',
@@ -32,40 +32,41 @@ export class Home extends React.Component{
         }).then((data) => {
             //console.log(data);
             //console.log(data.places);
-            if (data.places.length === 0) {
-                this.setState((prev) => {
-                    return {
-                        isDone: true,
-                        disableTabs: true
-                    };
-                });
-            }
-            else {
+            if (data.places.length !== 0) { // old user has data
 
                 const savedPoints = data.places.filter(place => place['type'] === "poi");
                 const startPoints = data.places.filter(place => place['type'] === "start");
-                if (startPoints.length > 0) {
-                    // TODO: add address to input form
-                    }
-                else { // no start points
+
+                if (startPoints === undefined || startPoints === null || startPoints.length === 0) {
                     this.setState((prevState) => { return {disableTabs: true}});
+                } else {
+                    this.setState((prevState) => {
+                        return {
+                            disableTabs: false,
+                        };
+                    });
                 }
                 this.totalDays = Math.max.apply(Math, savedPoints.map((o) => {
                     return o.day
                 })) + 1;
-                this.homeCallback(data.places, this.totalDays, false);
-                this.isDayOptionsChosen = true;
-                this.setState((prev) => {
-                    return {
-                        isDone: true
-                    };
-                });
+                this.points = data.places;
+
             }
+
+            this.setState((prev) => {
+                return {
+                    fetchFinished: true
+                };
+            });
 
         }).catch((e) => {
             console.log(e.message);
         });
 
+    }
+
+    componentWillUnmount() {
+        console.log("Home will unmount");
     }
 
     homeCallback = (pts, tds, routeToTravelPlan=true) => {
@@ -93,7 +94,6 @@ export class Home extends React.Component{
                 }
             }
         }
-        this.isDayOptionsChosen = true;
         this.setState((prevState) => {
             return {
                 disableTabs: false,
@@ -111,7 +111,6 @@ export class Home extends React.Component{
                 }
             }
         }
-        this.isDayOptionsChosen = true;
         this.setState((prevState) => {
             return {
                 disableTabs: false,
@@ -122,7 +121,7 @@ export class Home extends React.Component{
 
     renderOverview() {
         //console.log(this.props)
-        return (<TravelOverview points={this.points} totalDays={this.totalDays} userID={this.props.userID} homeCallback={this.homeCallback} isDayOptionsChosen={this.isDayOptionsChosen}/>)
+        return (<TravelOverview points={this.points} totalDays={this.totalDays} userID={this.props.userID} homeCallback={this.homeCallback}/>)
     }
     renderPlanDetails() {
         return (
@@ -165,13 +164,16 @@ export class Home extends React.Component{
 
     render() {
       return (
-          <div className="App">
+        <div className="App Re-App Page" style={{position:"relative", height:"500px"}}>
+            <div id="nav_contain" style={{position:"absolute"}}>
             {this.renderNavigation()}
-            {this.state.isDone ?
-                <div className="App-body">
+
+            </div>
+            {this.state.fetchFinished ?
+                <div className="App-body" style={{width:"100%"}} >
                     {this.renderTabContent()}
                 </div>
-                : null
+                : <Spin tip="Getting user data..."/>
             }
         </div>
       );
