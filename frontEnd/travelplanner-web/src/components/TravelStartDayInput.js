@@ -20,6 +20,13 @@ export class TravelStartDayInput extends React.Component {
 
     componentDidMount() {
         console.log("TravelStartDayInput did mount");
+
+
+
+    }
+
+    componentDidUpdate() {
+        console.log("TravelStartDayInput did update");
         if (this.props.totalDays > 0) {
             this.startPoints = Array(this.props.totalDays).fill({});
 
@@ -28,21 +35,6 @@ export class TravelStartDayInput extends React.Component {
                 const {day} = startPoint;
                 this.startPoints[day] = startPoint;
 
-            }
-        }
-
-
-    }
-
-    componentDidUpdate() {
-        console.log("TravelStartDayInput did update");
-        if (this.props.totalDays > 0 && this.startPoints.length == 0) {
-            this.startPoints = Array(this.props.totalDays).fill({});
-
-            for (let i = 0; i < this.props.startPoints.length; i++) {
-                const startPoint = this.props.startPoints[i];
-                const {day} = startPoint;
-                this.startPoints[day] = startPoint;
             }
         }
     }
@@ -79,8 +71,7 @@ export class TravelStartDayInput extends React.Component {
     }
 
     handleGenerateButtonPressed = () => {
-        //TODO: validation firstday
-
+        //validation firstday
         if(this.startPoints == undefined || this.startPoints[0] == undefined || Object.keys(this.startPoints[0]).length === 0){
             //console.log(this.startPoints);
             //console.log(this.day);
@@ -90,10 +81,11 @@ export class TravelStartDayInput extends React.Component {
         // interpolation
         for (let i = 1; i < this.props.totalDays; i++) {
             if (Object.keys(this.startPoints[i]).length === 0) {
-                this.startPoints[i] = this.startPoints[i - 1];
+                this.startPoints[i] = JSON.parse(JSON.stringify(this.startPoints[i - 1])); // deep copy
                 this.startPoints[i].day = i;
             }
         }
+
 
         const endPoint = 'GeneratePaths';
         //console.log(JSON.stringify({"userID": this.props.userID, "startPlaces": this.startPoints}));
