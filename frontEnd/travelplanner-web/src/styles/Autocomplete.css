@@ -1,9 +1,10 @@
 .Autocomplete {
     position:absolute;
     border-radius: 5px;
-    font-size: 18px;
+    font-size: 10px;
     left:0px;
     margin-top: 10px;
+    width:180x;
 
 }
 .Generate {
@@ -17,6 +18,6 @@
     height:40px;
     border: 1px solid #D6D6D6;
     border-radius: 5px;
-    font-size: 18px;
-    width: 10px;
+    font-size: 10px;
+    width: 190px;
 }
