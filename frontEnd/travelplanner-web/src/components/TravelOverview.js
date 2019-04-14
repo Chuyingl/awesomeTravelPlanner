@@ -264,7 +264,7 @@ export class TravelOverview extends React.Component {
                       arrowColor: '#4F6E96',
                       //overlayColor: 'rgba(79, 26, 0, 0.4)',
                       backgroundColor: 'white',
-                      primaryColor: '#4F6E96',
+                      primaryColor: '#3A94F5',
                       textColor: 'black',
                       width: 300,
                       zIndex: 1000,
@@ -279,7 +279,7 @@ export class TravelOverview extends React.Component {
                 <WrappedTravelMap 
                     googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3CEh9DXuyjozqptVB5LA-dN7MxWWkr9s&v=3.exp&libraries=geometry,drawing,places"
                     loadingElement={<div style={{ height: `100%` }} />}
-                    containerElement={<div style={{ height: `500px` }} />}
+                    containerElement={<div style={{ height: `800px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
                     points={this.state.points}
                     totalDays={this.totalDays}
@@ -290,18 +290,19 @@ export class TravelOverview extends React.Component {
 
            
                 </div>
-                <div className="info" id="overview-info"> 
-                        <div style={{position:"absolute",marginLeft:"10px"}}>
+                <div className="info" id="overview-info">
+                    {
+                        this.totalDays>0&&<div style={{position:"absolute",marginLeft:"10px",top:"10px"}}
+                                               className="banger">You chose a <b>{this.totalDays}</b> days Trip!
+
+                        </div>
+                    }
+                        <div style={{position:"absolute",marginLeft:"10px", top:"60px"}}>
                         <Dropdown overlay={dayOptionsMenu} trigger={['click']}>
-                            <Button className="button-font" id="day-options" style={{userSelect: 'none'}}>Day Options</Button>
+                            <Button className="button-font" id="day-options" style={{userSelect: 'none'}}>Total Days</Button>
                         </Dropdown>
                         </div>
-                        {
-                          this.totalDays>0&&<div style={{position:"absolute",marginLeft:"10px",top:"40px"}}
-                            className="banger">You chose a <b>{this.totalDays}</b> days Trip!
-                            
-                            </div>
-                        }
+
                         
                         <div style={{visibility: this.totalDays > 0 ? 'visible' : 'hidden', marginTop:'80px',marginLeft:"10px"}}>
                             <TravelStartDayInput totalDays={this.totalDays}
@@ -311,9 +312,12 @@ export class TravelOverview extends React.Component {
                                                  onGenerateButtonPressed={this.handleGenerateButtonPressed}
                                                  onGeneratePathsObtained={this.handleGeneratePathsObtained}/>
                         </div>
-                        <div className="help" style={{ position:"absolute", bottom:"40px", marginLeft:"10px", textAlign:"left"}}><Button onClick={this.handleJoyrideCallback}><Icon type="question-circle"/>Get help from here!</Button> </div> 
+
                 </div>
+                <div className="help" style={{ position:"absolute", bottom:"0px", marginLeft:"1445px", textAlign:"left" }}>
+                    <Button onClick={this.handleJoyrideCallback} style={{"background-color": "lightGrey", }}><Icon type="question-circle"/>Help</Button>
                 </div>
+            </div>
 
                 
 

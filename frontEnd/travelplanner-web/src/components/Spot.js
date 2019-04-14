@@ -3,7 +3,7 @@ import React from 'react';
 import '../styles/Spot.css';
 const Panel = Collapse.Panel;
 const customPanelStyle = {
-  background: '#536B94',
+  "background-color": '#5A93C5',
   borderRadius: 4,
   marginBottom: 24,
   border: 0,
@@ -27,7 +27,7 @@ export default class Spot extends React.Component {
               style={{ width: '100%' }}
               headStyle={{ 'background-color': '#879ECA' }}
               bodyStyle={{
-                'background-color': '#E0F1FF',
+                'background-color': 'white',
                 'font-size': '20px',                
               }}
             >

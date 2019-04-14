@@ -1,4 +1,8 @@
+.DetailPage {
 
+  border-radius: 10px;
+  background: rgba(18, 27, 48, 0.8);
+}
 
 .row{
   margin-bottom: 10px;

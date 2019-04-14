@@ -1,10 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Oleo+Script');
+
 .timeline {
-    margin-top: 0px;
+    margin-top: 10px;
     margin-left: 10px;
     display:flex;
     float:left;
-    font-family: 'Oleo Script', cursive;
-    font-size: 20px;;
+    font-family: 'Roboto', sans-serif;
+    font-size: 50px;
+    color: white
 
 }

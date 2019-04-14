@@ -1,11 +1,11 @@
 .Swimlane-title {
-  font-family: 'Oleo Script', cursive;
+  font-family: 'Anton', sans-serif;
   border-bottom-style: solid;
-  border-bottom-color: #282c34;
-  text-align: mid;
+  border-bottom-color: white;
+  text-align: center;
   font-weight: bold;
   font-size: 30px;
-  color :  #282c34;
+  color :  white;
 }
   
 

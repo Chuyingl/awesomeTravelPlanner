@@ -33,7 +33,7 @@ class App extends Component {
     render() {
         return (
             <div className="App" id="App_div">
-                <Header isLoggedIn={this.state.isLoggedIn} handleLogout={this.handleLogout}/>
+                <Header isLoggedIn={this.state.isLoggedIn} handleLogout={this.handleLogout} userID={this.state.userID}/>
                 <Main isLoggedIn={this.state.isLoggedIn} handleLogin={this.handleLogin} userID={this.state.userID}/>
             </div>
 

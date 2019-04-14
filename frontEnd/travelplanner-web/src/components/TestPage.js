@@ -11,15 +11,6 @@ const paths=[
     {lat: 40.7425, lng: -74.0061}
 ]
 export class TestPage extends React.Component {
-    constructor(props) {
-        super(props);
-        //console.log(this.props.location.state);
-    }
-
-    componentWillMount() {
-        console.log(this.props.points);
-        console.log(this.props.totalDays);
-    }
 // // /update_paths
 //     request json:
 //         {
@@ -55,11 +46,25 @@ export class TestPage extends React.Component {
 
     }
 
-    render() {
+    constructor (props) {
+        super(props);
+
+        this.state = {
+            videoURL: 'https://imgur.com/ydH7ULN'
+        }
+    }
+
+    render () {
+        const sample = "https://i.imgur.com/ydH7ULN.mp4"
         return (
             <div>
-                test
+                <video className='videoTag' autoPlay loop muted>
+                    <source src={sample} type='video/mp4'/>
+                </video>
+
+                <p>lalala</p>
             </div>
-        );
+
+        )
     }
 }

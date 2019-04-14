@@ -90,12 +90,17 @@ class RegisterationForm extends React.Component {
                 },
             },
         };
-
+        const sample = "https://i.imgur.com/ydH7ULN.mp4";
         return (
+            <div className="main_page" >
+            <video className='videoTag' autoPlay loop muted style={{zIndex:-1}}>
+                <source src={sample} type='video/mp4'/>
+            </video>
+            <div className="register-container">
             <Form className="register-form" {...formItemLayout} onSubmit={this.handleSubmit}>
                  
                 <Form.Item style={{marginLeft:"auto"}}>
-                   <div style={{color:"black", float:"left", fontWeight:10}}>*Username</div>
+                   <div style={{color:"white", float:"left", fontWeight:10}}>*Username</div>
                     {getFieldDecorator('username', {
                         rules: [{required: true, message: 'Please input your nickname!', whitespace: true}],
                     })(
@@ -105,7 +110,7 @@ class RegisterationForm extends React.Component {
                    </Form.Item>
                 
                 <Form.Item class="register-item" style={{marginLeft:"auto"}}>
-                <div style={{color:"black", float:"left", fontWeight:10}}>*Password</div>
+                <div style={{color:"white", float:"left", fontWeight:10}}>*Password</div>
                     {getFieldDecorator('password', {
                         rules: [{
                             required: true, message: 'Please input your password!',
@@ -119,7 +124,7 @@ class RegisterationForm extends React.Component {
                
         
                 <Form.Item class="register-item" style={{marginRight:"auto"}} >
-                <div style={{color:"black", float:"left" }}>*Confirm Password</div>
+                <div style={{color:"white", float:"left" }}>*Confirm Password</div>
                     {getFieldDecorator('confirm', {
                         rules: [{
                             required: true, message: 'Please confirm your password!',
@@ -132,7 +137,7 @@ class RegisterationForm extends React.Component {
                 </Form.Item>
                 
                 <Form.Item class="register-item" >
-                <div style={{color:"black", float:"left" }}>*First name</div>
+                <div style={{color:"white", float:"left" }}>*First name</div>
                     {getFieldDecorator('firstname', {
                         rules: [{required: true, message: 'Please input your firstname!', whitespace: true}],
                     })(
@@ -142,7 +147,7 @@ class RegisterationForm extends React.Component {
                 </Form.Item>
                 
                 <Form.Item class="register-item">
-                <div style={{color:"black", float:"left",fontWeight:10}}>*Last name</div><br/>
+                <div style={{color:"white", float:"left",fontWeight:10}}>*Last name</div><br/>
                     {getFieldDecorator('lastname', {
                         rules: [{required: true, message: 'Please input your lastname!', whitespace: true}],
                     })(
@@ -154,10 +159,12 @@ class RegisterationForm extends React.Component {
                 <Form.Item >
                     <div>
                     <Button type="primary" htmlType="submit">Register</Button>
-                    <p style={{color:"black"}}>I already have an account, go back to <Link to="/login" style={{color:"blue", fontWeight:"14"}}>login</Link></p>
+                    <p style={{color:"white"}}>I already have an account, go back to <Link to="/login" style={{color:"#007bff", fontWeight:"14"}}>login</Link></p>
                     </div>
                 </Form.Item>
             </Form>
+                </div>
+                </div>
         );
     }
 }

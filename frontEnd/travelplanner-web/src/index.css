@@ -10,9 +10,11 @@
 @import 'styles/color.css';
 @import 'styles/fonts.css';
 @import'styles/SortbleList.css';
-
-
-
+@import url('https://fonts.googleapis.com/css?family=Poiret+One');
+@import url('https://fonts.googleapis.com/css?family=Anton');
+@import url('https://fonts.googleapis.com/css?family=Oleo+Script');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=UnifrakturMaguntia');
 
 body {
   margin: 0;
@@ -22,9 +24,22 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  background: url("./assets/images/NYCPage.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment:fixed;
+
+
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.root {
+  margin:0;
+  padding:0;
+
 }

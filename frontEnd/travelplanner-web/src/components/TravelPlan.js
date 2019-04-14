@@ -447,23 +447,12 @@ export class TravelPlan extends React.Component {
                   stepIndex={this.state.stepIndex}
                   steps={this.state.toursteps}
                   continuous={true} />}
-                <div className="  contain-color "  style={{ position:"absolute",top:"30px",height:"250px", left:"2px","border-radius": "5px",display:"flex", overflow:"auto"}} >
-                    <Radio.Group id="button-group" onChange={this.filtermarkers} size={"large"} >
-                    {
-                     [...Array(this.props.totalDays).keys()].map(i =>
-                      <div style={{margin:"4px", border:"solid", borderColor:"#555B6E" }}>
-                      <Radio.Button className="contain-color font-white " style={{  border: "none", padding:"7px", "border-radius": "0px",
-                      }} key={i} value={(i+1).toString()}>Day{i+1}</Radio.Button>
-                      </div> 
-                     )
-                   }
-                    </Radio.Group>
-                </div>
+
                 <div className="map_container" id="plan_map">
                 <WrappedTravelMap
                     googleMapURL={"https://maps.googleapis.com/maps/api/js?key=AIzaSyCvUbj7eqr0u0RFbaNFGU9JAWYAoi5JmwY&v=3.exp&libraries=geometry,drawing,places"}
                     loadingElement={<div style={{ height: `100%` }} />}
-                    containerElement={<div style={{ height: `500px` }} />}
+                    containerElement={<div style={{ height: `800px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
                     handleOnDayChange={this.filtermarkers}
                     suppressMarkers={true}
@@ -472,22 +461,35 @@ export class TravelPlan extends React.Component {
                     directions1={this.state.directions1}
                     //markers={this.start_points.markers}
                 />
+                    <div className="  contain-color "  style={{ position:"absolute",top:"30px",height:"250px", left:"100%","border-radius": "5px",display:"flex", overflow:"auto"}} >
+                        <Radio.Group id="button-group" onChange={this.filtermarkers} size={"large"} >
+                            {
+                                [...Array(this.props.totalDays).keys()].map(i =>
+                                    <div style={{margin:"4px", border:"solid", borderColor:"#555B6E" }}>
+                                        <Radio.Button className="contain-color font-white " style={{  border: "none", padding:"7px", "border-radius": "0px",
+                                        }} key={i} value={(i+1).toString()}>Day{i+1}</Radio.Button>
+                                    </div>
+                                )
+                            }
+                        </Radio.Group>
+                    </div>
                 </div>
-                <div className="info contain-color font-white"  >
+                <div className="info contain-color font-white" id="plan-info">
                     
                     {
                       (this.state.legs||typeof(this.state.legs)!="undefined")&&(
-                        <SortableComponent className="font-white" items={this.state.legs} change={this.handeldrop} start={this.state.start} />
+                        <SortableComponent className="font-white sortableComponent" items={this.state.legs} change={this.handeldrop} start={this.state.start} />
                       )  
                     }
                     <div>
-                        <Button className="button-font save" onClick={this.saveButtonClicked}>Save</Button>
+                        <Button className="button-font save" style={{marginTop: "20px"}} onClick={this.saveButtonClicked}>Save</Button>
                     
                  </div>
-                 <div className="help" style={{ position:"absolute", bottom:"40px", marginLeft:"10px", textAlign:"left"}}><Button onClick={this.handleJoyrideCallback}><Icon type="question-circle"/>Get help from here!</Button> </div> 
-                      
-                 </div> 
-            </div>
+                 </div>
+               <div className="help" style={{ position:"absolute", bottom:"0px", marginLeft:"1350px", textAlign:"left" }}>
+                   <Button onClick={this.handleJoyrideCallback} style={{"background-color": "lightGrey", }}><Icon type="question-circle"/>Help</Button>
+               </div>
+           </div>
         );
     }
   }

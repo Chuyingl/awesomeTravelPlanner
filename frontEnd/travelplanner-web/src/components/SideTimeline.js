@@ -32,7 +32,7 @@ export default class SideTimeline extends React.Component {
         return (
             <div className='timeline'>
                 <div id='travel-plan'>
-                    <Timeline>
+                    <Timeline style={{color: "white"}}>
                         {planList}
                     </Timeline>
                 </div>

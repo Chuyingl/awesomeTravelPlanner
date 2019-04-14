@@ -1,8 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Poiret+One');
+
 .ant-collapse-header{
   color : rgb(255, 255, 255) !important;
   font-size: 20px;
-  font-family: 'Poiret One', cursive;
+  font-family: 'Anton', sans-serif;
+  opacity:1;
 
 }
 

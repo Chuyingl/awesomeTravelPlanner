@@ -3,8 +3,9 @@ import { Register } from './Register';
 import { Login } from './Login';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { Home } from './Home';
-import {TravelPlan} from "./TravelPlan"
-import {TravelOverview} from "./TravelOverview"
+import {TravelPlan} from "./TravelPlan";
+import {TravelOverview} from "./TravelOverview";
+import {TestPage} from "./TestPage";
 
 
 export class Main extends React.Component {
