@@ -3,6 +3,7 @@ import {Dropdown} from './Dropdown';
 import {Autocomplete} from "./Autocomplete";
 import { API_ROOT } from "../constants"
 import {notification,Button} from  'antd'
+import {LOC_SHAKE} from "../constants"
 
 //import 'antd/dist/antd.css';
 //import './index.css';
