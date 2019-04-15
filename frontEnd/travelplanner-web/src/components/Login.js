@@ -38,15 +38,19 @@ class NormalLoginForm extends React.Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
+        const sample = "https://i.imgur.com/ydH7ULN.mp4"
         return (
-            <div className="main_page"> 
+            <div className="main_page" >
+                <video className='videoTag' autoPlay loop muted style={{zIndex:-1}}>
+                    <source src={sample} type='video/mp4'/>
+                </video>
             <div className="login_container">
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <Form.Item>
                     {getFieldDecorator('username', {
                         rules: [{ required: true, message: 'Please input your username!' }],
                     })(
-                        <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
+                        <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)'}} />} placeholder="Username" />
                     )}
                 </Form.Item>
 
@@ -62,11 +66,12 @@ class NormalLoginForm extends React.Component {
                     <Button  style={{color:"white"}} type="primary" htmlType="submit" className="login-form-button">
                         Log in
                     </Button>
-                     <Link to="/register" style={{color:"white"}}>Or register now!</Link>
+                     <Link to="/register" style={{color:"white"}}><b>Or register now!</b></Link>
                 </Form.Item>
-            </Form> 
+            </Form>
+                </div>
             </div>
-            </div>
+
         );
        
     }

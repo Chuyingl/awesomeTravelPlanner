@@ -4,7 +4,7 @@ export default class Navigation extends React.Component {
   render() {
     return (
       <div className="nav" >
-      <ul className=" nav nav-tabs "  id="myTab" role="tablist">
+      <ul className=" nav nav-tabs " id="myTab" role="tablist">
         <li className="nav-item">
           <a className={"nav-link " + (this.props.selectedTab === 'traveloverview' ? 'active': '')}
              onClick={() => this.props.onClick("traveloverview")}

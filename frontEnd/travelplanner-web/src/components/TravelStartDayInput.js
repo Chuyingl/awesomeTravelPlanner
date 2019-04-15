@@ -156,7 +156,7 @@ export class TravelStartDayInput extends React.Component {
             <div className="Address" style={{position:"absolute", marginTop:"50px"}} >
                 <Autocomplete onPlaceChanged={this.handlePlaceChanged}
                               ref={(input) => { this.auto = input; }}/>
-                <Button className="button-font generate" style={{position:"absolute", marginTop:"50px"}} onClick={this.handleGenerateButtonPressed}>GeneratePath</Button>
+                <Button className="button-font generate" style={{position:"absolute", marginTop:"50px"}} onClick={this.handleGenerateButtonPressed}>Travel Routes</Button>
                
             </div>
 

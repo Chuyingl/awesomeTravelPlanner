@@ -423,18 +423,17 @@ export default class Board extends React.Component {
     render() {
         //console.log(this.state.days);
         return (
-
-            <div className="DetailPage" style={{ display: "flex", float: "left", marginTop: "35px" }}>
-
-                <div className="DayList" style={{ height: "700px", overflow: "auto" }}>
-                    <DayList dayspot={this.state.days} colrefs={this.swimlanes.day} rowrefs={this.rows.row} />
-                    <div className="detail_button_group" >
-                        <Button className="button-font" onClick={this.saveButtonPressed}>Save</Button>
-                        <Button className="button-font" onClick={this.printButtonPressed} id='printbutton'>Print</Button>
-                    </div>
+            <div className="DetailPage" style={{ display:"flex", float:"left",marginTop:"50px", marginLeft:"100px", height:"900px", width:"1700px" }}>
+           
+                 <div className="DayList" style={{height:"900px", overflow:"auto"}}>
+                <DayList dayspot={this.state.days} colrefs={this.swimlanes.day} rowrefs={this.rows.row} />
+                <div className="detail_button_group" style={{marginLeft: "auto", marginRight: "auto"}}>
+                <Button className="button-font" onClick={this.saveButtonPressed} style={{marginRight: "100px"}}>Save</Button>
+                <Button className="button-font" onClick={this.printButtonPressed} id='printbutton'>Print</Button>
+                 </div>
                 </div>
-                <div className="timeline" style={{ height: "700px", overflow: "auto" }}>
-                    <SideTimeline days={this.state.days} />
+                <div className="timeline" style={{ height:"900px", overflow:"auto"}}>
+                <SideTimeline days={this.state.days}/>
                 </div>
 
             </div>

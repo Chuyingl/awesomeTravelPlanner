@@ -1,4 +1,19 @@
 .register-form {
-    width: 550px;
+
+    width: 350px;
     margin: auto;
+}
+
+.register-container{
+    position:absolute;
+    background-color:#121b30;
+    top: 15%;
+    left:40%;
+    height: 700px;
+    width: 350px;
+    padding: 50px;
+    padding-top:25px;
+    border-radius: 10px;
+    opacity: 0.8;
+
 }

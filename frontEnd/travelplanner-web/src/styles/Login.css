@@ -1,5 +1,6 @@
 .login-form {
-    max-width: 300px;
+
+    width: 350px;
     margin: auto;
 }
 
@@ -8,17 +9,28 @@
 }
 
 .login_container{
-  padding: 20px;
-  width: 30%;
-  border-radius: 25px;
-  border: 2px solid white;
-  background-color:  #282c34;
-  margin-left: auto;
-  margin-right: auto;
+    position: absolute;
+    background-color:#121b30;
+    top: 20%;
+    left:38%;
+    height: 250px;
+    width: 450px;
+    padding: 50px;
+    padding-top:25px;
+    border-radius: 10px;
+    opacity: 0.8;
  
 }
+
 .main_page{
-  padding: 30px;
-  background-image: url("../assets/images/250fed2ae2ff8059536a5ec545ed23c8.jpg");
-  height: 700px;
+    height: 100%;
+    width: 100%;
+
+
+}
+
+.videoTag{
+    top:0px;
+    height: 100%;
+    width: 100%;
 }
