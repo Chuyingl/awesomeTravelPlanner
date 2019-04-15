@@ -72,7 +72,6 @@ export class TravelOverview extends React.Component {
     changedPoints = [];
 
     startPoints = [];
-    poiPoints = [];
 
     generatedPoints=[];
     
@@ -92,7 +91,6 @@ export class TravelOverview extends React.Component {
     componentDidMount() {
         console.log("TravelOverview did mount");
         this.totalDays = this.props.totalDays;
-        this.poiPoints = this.props.points.filter(place => place['type'] === "poi")
         this.startPoints = this.props.points.filter(place => place['type'] === "start")
         this.setState((prevState) => {
             return {
@@ -214,10 +212,10 @@ export class TravelOverview extends React.Component {
         if (!replaced) {
             this.startPoints.push(obj);
         }
-
+        const poiPoints = this.state.points.filter(place => place['type'] === "poi")
         this.setState((prevState) => {
             return {
-                points:[...this.poiPoints, ...this.startPoints],
+                points:[...poiPoints, ...this.startPoints],
             };
         });
 

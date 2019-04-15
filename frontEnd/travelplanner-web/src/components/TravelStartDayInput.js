@@ -88,7 +88,7 @@ export class TravelStartDayInput extends React.Component {
 
 
         const endPoint = 'GeneratePaths';
-        //console.log(JSON.stringify({"userID": this.props.userID, "startPlaces": this.startPoints}));
+        console.log(JSON.stringify({"userID": this.props.userID, "startPlaces": this.startPoints}));
       
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
