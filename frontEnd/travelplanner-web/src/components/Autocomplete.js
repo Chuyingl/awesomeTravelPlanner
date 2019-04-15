@@ -31,8 +31,9 @@ export class Autocomplete extends React.Component {
   render() {
     return (
       <div>
-        <span className="Autocomplete" >
-          <input className="input" style={{width:"300px"}}
+
+        <span className="Autocomplete">
+          <input className="input" style={{width: "250px"}}
             ref={this.autocompleteInput}
             id="autocomplete"
             placeholder="Please enter the start place"

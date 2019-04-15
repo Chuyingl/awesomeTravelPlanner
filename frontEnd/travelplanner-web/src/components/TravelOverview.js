@@ -22,7 +22,7 @@ const steps= [
     },
     {
       target: '.map',
-      content: 'Aha...now you can see the recommended places now! By left clicking the mark, you see of information of the place. By right clicking the mark, you can delete this place or change the day to visit.',
+      content: 'Aha...now you can see thec recommended places now! By left clicking the mark, you see of information of the place. By right clicking the mark, you can delete this place or change the day to visit.',
     },
     {
       target: '.Dropdown',
@@ -72,7 +72,6 @@ export class TravelOverview extends React.Component {
     changedPoints = [];
 
     startPoints = [];
-    poiPoints = [];
 
     generatedPoints=[];
     
@@ -85,14 +84,13 @@ export class TravelOverview extends React.Component {
 
     state = {
         points:[],
-        isLoadingInit: false,
-        isGeneratingPath: false,
+        //isLoadingInit: false,
+        //isGeneratingPath: false,
     }
 
     componentDidMount() {
         console.log("TravelOverview did mount");
         this.totalDays = this.props.totalDays;
-        this.poiPoints = this.props.points.filter(place => place['type'] === "poi")
         this.startPoints = this.props.points.filter(place => place['type'] === "start")
         this.setState((prevState) => {
             return {
@@ -126,7 +124,7 @@ export class TravelOverview extends React.Component {
             this.setState((prevState) => {
                 return {
                     points: data.places,
-                    isLoadingInit: false
+                    //isLoadingInit: false
                 }
             })
 
@@ -180,25 +178,6 @@ export class TravelOverview extends React.Component {
           console.log(data); //eslint-disable-line no-console
           console.groupEnd();
       };
-           
-
-    handleGenerateButtonPressed = () => {
-        this.setState((prevState) => {
-            return {
-                isGeneratingPath:true
-            };
-        });
-    }
-
-    handleGeneratePathsObtained = (generatedPoints) => {
-        //this.props.homeCallback(this.testingGeneratedPoints,this.totalDays); // for testing
-        this.setState((prevState) => {
-            return {
-                isGeneratingPath:false
-            };
-        });
-        this.props.homeCallback(generatedPoints,this.totalDays);
-    }
 
     handleOnDayChange = (pointId, day) => {
         let dayNum = parseInt(day);
@@ -220,7 +199,6 @@ export class TravelOverview extends React.Component {
         this.onSavePlacesButtonClick(pointId, day, -1);
     }
 
-
     addStartPoint = (obj) => {
         let replaced = false;
         for (let i = 0; i < this.startPoints.length; i++) {
@@ -234,13 +212,17 @@ export class TravelOverview extends React.Component {
         if (!replaced) {
             this.startPoints.push(obj);
         }
-
+        const poiPoints = this.state.points.filter(place => place['type'] === "poi")
         this.setState((prevState) => {
             return {
-                points:[...this.poiPoints, ...this.startPoints],
+                points:[...poiPoints, ...this.startPoints],
             };
         });
 
+    }
+
+    handleGeneratePathsObtained = (generatedPoints) => {
+        this.props.homeCallback(generatedPoints, this.totalDays);
     }
 
     render() {
@@ -284,8 +266,6 @@ export class TravelOverview extends React.Component {
                     points={this.state.points}
                     totalDays={this.totalDays}
                     handleOnDayChange={this.handleOnDayChange}
-                    isLoadingInit={this.state.isLoadingInit}
-                    isGeneratingPath={this.state.isGeneratingPath}
                 />
 
            
@@ -293,9 +273,7 @@ export class TravelOverview extends React.Component {
                 <div className="info" id="overview-info">
                     {
                         this.totalDays>0&&<div style={{position:"absolute",marginLeft:"10px",top:"10px"}}
-                                               className="banger">You chose a <b>{this.totalDays}</b> days Trip!
-
-                        </div>
+                                               className="banger">You chose a <b>{this.totalDays}</b> days Trip!</div>
                     }
                         <div style={{position:"absolute",marginLeft:"10px", top:"60px"}}>
                         <Dropdown overlay={dayOptionsMenu} trigger={['click']}>
@@ -309,7 +287,6 @@ export class TravelOverview extends React.Component {
                                                  userID={this.props.userID}
                                                  startPoints={this.startPoints}
                                                  onPlaceChanged={this.addStartPoint}
-                                                 onGenerateButtonPressed={this.handleGenerateButtonPressed}
                                                  onGeneratePathsObtained={this.handleGeneratePathsObtained}/>
                         </div>
 

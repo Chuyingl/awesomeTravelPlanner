@@ -103,7 +103,7 @@ export class TravelMarker extends React.Component {
             <div>
 
                 <Marker
-                    position={{ lat: type === 'start' ? lat + LOC_SHAKE * Math.random() * 2 - LOC_SHAKE : lat, lng: type === 'start' ? lon + LOC_SHAKE * Math.random() * 2 - LOC_SHAKE : lon}}
+                    position={{ lat: type === "start" ? lat+LOC_SHAKE*day : lat, lng: type === "start" ? lon+LOC_SHAKE*day:lon}}
                     onClick={this.onToggleOpen}
                     onRightClick={this.onOptionOpen}
                     icon={{url: type === 'start' ? require(`../assets/images/start-c${day+1}-marker.svg`) : require(`../assets/images/c${day+1}-marker.svg`),
