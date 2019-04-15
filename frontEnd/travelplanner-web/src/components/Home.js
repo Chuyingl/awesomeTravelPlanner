@@ -7,6 +7,7 @@ import '../styles/App.css';
 import {TravelOverview} from './TravelOverview'
 import {API_ROOT} from "../constants";
 import {Spin} from 'antd';
+import { truncateSync } from 'fs';
 
 
 export class Home extends React.Component{
@@ -14,7 +15,7 @@ export class Home extends React.Component{
     state = {
         selectedTab: 'traveloverview',
         fetchFinished: false,
-        disableTabs: true
+        disableTabs: false
     };
 
     points = [];
@@ -113,7 +114,7 @@ export class Home extends React.Component{
         }
         this.setState((prevState) => {
             return {
-                disableTabs: false,
+                disableTabs: true,
             };
         });
 
