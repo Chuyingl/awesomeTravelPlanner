@@ -1,6 +1,7 @@
 import React from 'react';
 import { Marker, InfoWindow, OverlayView } from "react-google-maps";
 import { Menu, Dropdown, Select} from 'antd';
+import {LOC_SHAKE} from "../constants"
 
 import blueMarkerUrl from '../assets/images/blue-marker.svg';
 import blackMarkerUrl from '../assets/images/black-marker.png';
@@ -17,7 +18,16 @@ export class TravelMarker extends React.Component {
     onToggleOpen = () => {
         this.setState((prevState) => {
             return {
-                isOpen: !prevState.isOpen,
+                isOpen: true,
+            }
+        });
+
+    }
+
+    onToggleClose = () => {
+        this.setState((prevState) => {
+            return {
+                isOpen: false,
             }
         });
 
@@ -37,14 +47,36 @@ export class TravelMarker extends React.Component {
         console.log('click', e);
         this.setState((prevState) => {
             return {
-                isOptionOpen: false,
+                isOptionOpen: true
             }
         });
         this.props.onDayChange(this.props.point.placeID, e.key);
     }
 
+    setWrapperRef = (node) => {
+        this.wrapperRef = node;
+    }
+
+    handleClickOutside = (event)=> {
+        if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+            this.setState((prevState) => {
+                return {
+                    isOptionOpen: false
+                }
+            });
+        }
+    }
+
+    componentDidMount() {
+        document.addEventListener('mousedown', this.handleClickOutside);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside);
+    }
+
     render() {
-        const {type, lat, lon, name, imageURL, day} = this.props.point;
+        const {type, lat, lon, name, imageURL, day, intradayIndex} = this.props.point;
         //console.log(name);
         const totalDays = this.props.totalDays;
 
@@ -66,44 +98,38 @@ export class TravelMarker extends React.Component {
             y: -10,
         })
 
+
         return (
             <div>
 
                 <Marker
-                    position={{ lat: lat, lng: lon }}
-                    onMouseOver={ this.onToggleOpen}
-                    onMouseOut={this.onToggleOpen}
+                    position={{ lat: type === 'start' ? lat + LOC_SHAKE * Math.random() * 2 - LOC_SHAKE : lat, lng: type === 'start' ? lon + LOC_SHAKE * Math.random() * 2 - LOC_SHAKE : lon}}
                     onClick={this.onToggleOpen}
                     onRightClick={this.onOptionOpen}
-                    icon={{url: require(`../assets/images/c${day+1}-marker.svg`),
+                    icon={{url: type === 'start' ? require(`../assets/images/start-c${day+1}-marker.svg`) : require(`../assets/images/c${day+1}-marker.svg`),
                           scaledSize: new window.google.maps.Size(26, 41)}}
                 >
                     {this.state.isOpen ?
-                        <InfoWindow onCloseClick={this.onToggleOpen}>
+                        <InfoWindow onCloseClick={this.onToggleClose}>
                             <div>
-                                <img src={imageURL} alt={name} className="travel-marker-image"/>
+                                { imageURL !== undefined && imageURL !== null && imageURL !== "" ?
+                                    <img src={imageURL} alt={name} className="travel-marker-image"/> : null
+                                }
                                 <p>{`Day ${day + 1}: ${name}`}</p>
                                 <a className="btn btn-success" href={`https://en.wikipedia.org/wiki/${name}`} target ="_blank">Learn More</a>
                             </div>
                         </InfoWindow> : null
                     }
 
-                    {this.state.isOptionOpen ?
+                    {this.state.isOptionOpen && type !== 'start' ?
                         <OverlayView
                             position={{lat: lat, lng: lon}}
                             mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
                             getPixelPositionOffset={getPixelPositionOffset}
                         >
-                            <Menu
-                                onClick={this.onOptionClick}
-                            >
-                                <Menu.Item key={-1}>Delete</Menu.Item>
-                                {
-                                    [...Array(totalDays).keys()].filter((i) => i !== parseInt(day)).map((i)=>
-                                        <Menu.Item key={i}>{`Change to Day ${i + 1}`}</Menu.Item>)
-
-                                }
-                            </Menu>
+                            <div ref={this.setWrapperRef}>
+                                {menu}
+                            </div>
 
                         </OverlayView> : null
                     }

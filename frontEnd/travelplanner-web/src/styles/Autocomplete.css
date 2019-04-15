@@ -8,16 +8,15 @@
 
 }
 .Generate {
-
     width: 150px;
     border-radius: 5px;
     font-size: 20px;
 }
 .input {
     
-    height:40px;
+    height:42px;
     border: 1px solid #D6D6D6;
     border-radius: 5px;
-    font-size: 10px;
-    width: 190px;
+    font-size: 20px;
+    width: 20px;
 }

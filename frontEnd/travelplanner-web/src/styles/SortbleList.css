@@ -1,6 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Poiret+One');
 
 .items-font{
-    font-family: 'Poiret One', cursive;
+    font-family: 'Roboto', sans-serif;
     font-weight: 600;
+    color: white;
+    fontSize:"50px";
+    fontWeight:'1000'
+}
+
+.sortableComponent {
+    marginLeft: auto;
+    marginRight: auto;
 }

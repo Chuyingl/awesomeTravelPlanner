@@ -7,6 +7,7 @@
 .banger{
     font-family: 'Oleo Script', cursive;
     font-size: 20px;
+    color:white;
 }
 .freder{
     font-family: 'Fredericka the Great', cursive;
@@ -18,7 +19,7 @@
     font-size: 15px;
     font-weight: thin;
     color: white;
-    background-color:#00033a
+    background-color:#3A94F5;
 
 }
 #myTab{

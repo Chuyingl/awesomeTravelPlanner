@@ -11,18 +11,22 @@ export class Autocomplete extends React.Component {
   }
 
   componentDidMount() {
+    console.log("Autocomplete did mount");
     this.autocomplete = new google.maps.places.Autocomplete(
       this.autocompleteInput.current,
       //{ types: ["geocode"] }
     );
-    //this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
+    this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
   }
 
-  /*handlePlaceChanged = () => {
+  componentWillUnmount() {
+    console.log("Autocomplete will unmount");
+  }
+
+  handlePlaceChanged = () => {
     const place = this.autocomplete.getPlace();
-    console.log(place);
     this.props.onPlaceChanged(place);
-  }*/
+  }
 
   render() {
     return (
@@ -31,7 +35,7 @@ export class Autocomplete extends React.Component {
           <input className="input" style={{width:"300px"}}
             ref={this.autocompleteInput}
             id="autocomplete"
-            placeholder="Enter your start place"
+            placeholder="Please enter the start place"
             type="text"
           />
         </span>

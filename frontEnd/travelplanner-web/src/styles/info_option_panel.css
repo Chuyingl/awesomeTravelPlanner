@@ -1,11 +1,21 @@
 .info{
    position: absolute;
-   height: 500px;
-   width: 35%;
-   left: 65%;
+
+   margin-left: 20px;
    overflow: auto;
+   background: rgba(18, 27, 48, 0.8);;
+   width: 460px;
+   padding: 50px;
+   padding-top:25px;
+
    
 }
 #overview-info{
-   left: 70%;
+   left: 75%;
+   height: 300px;
+}
+
+#plan-info{
+   left:75%;
+   height: 800px;
 }

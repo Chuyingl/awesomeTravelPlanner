@@ -3,12 +3,12 @@ import React from 'react';
 //import $ from 'jquery'
 import { Menu, Dropdown, Form, Row, Col, Input, Button, Icon } from 'antd';
 import { API_ROOT } from "../constants"
-import { StartAddressInputForm } from "./StartAddressInputForm";
+//import { StartAddressInputForm } from "./StartAddressInputForm";
 //import { GeneratePathsButton } from "./GeneratePathsButton";
 
 import { WrappedTravelMap } from "./TravelMap";
 import { Link } from "react-router-dom";
-import {GOOGLE_GEOCODE_API, PLACE_API_K} from "../constants";
+//import {GOOGLE_GEOCODE_API, PLACE_API_K} from "../constants";
 import {TravelStartDayInput} from "./TravelStartDayInput"
 import Joyride,{ ACTIONS, EVENTS, STATUS}  from 'react-joyride';
 const steps= [
@@ -72,6 +72,7 @@ export class TravelOverview extends React.Component {
     changedPoints = [];
 
     startPoints = [];
+    poiPoints = [];
 
     generatedPoints=[];
     
@@ -83,20 +84,37 @@ export class TravelOverview extends React.Component {
    
 
     state = {
-        points: this.props.points.filter(place => place['type'] === "poi"),
-        isDayOptionsChosen : this.props.isDayOptionsChosen,
-
+        points:[],
+        isLoadingInit: false,
+        isGeneratingPath: false,
     }
 
     componentDidMount() {
+        console.log("TravelOverview did mount");
         this.totalDays = this.props.totalDays;
+        this.poiPoints = this.props.points.filter(place => place['type'] === "poi")
+        this.startPoints = this.props.points.filter(place => place['type'] === "start")
+        this.setState((prevState) => {
+            return {
+                points: this.props.points
+            }
+        })
+
+    }
+
+    componentWillUnmount() {
+        console.log("TravelOverview will unmount");
     }
 
     onDayOptionsChosen = (e) => {
         this.totalDays = parseInt(e.key) + 1;
         const endPoint = 'InitialRecommend';
         //console.log(`days: ${this.totalDays}`);
-
+        this.setState((prevState) => {
+            return {
+                isLoadingInit: true
+            }
+        })
         fetch(`${API_ROOT}/${endPoint}?userID=${this.props.userID}&totalDays=${this.totalDays}`, {
             method: 'GET',
         }).then((response) => {
@@ -108,7 +126,7 @@ export class TravelOverview extends React.Component {
             this.setState((prevState) => {
                 return {
                     points: data.places,
-                    isDayOptionsChosen: true
+                    isLoadingInit: false
                 }
             })
 
@@ -119,8 +137,7 @@ export class TravelOverview extends React.Component {
         // for testing
         /*this.setState((prevState) => {
             return {
-                points: this.testingPoints,
-                isDayOptionsChosen: true
+                points: this.testingPoints
             };
         })*/
     }
@@ -165,8 +182,21 @@ export class TravelOverview extends React.Component {
       };
            
 
-    handleGeneratePathsButtonPressed = (generatedPoints) => {
+    handleGenerateButtonPressed = () => {
+        this.setState((prevState) => {
+            return {
+                isGeneratingPath:true
+            };
+        });
+    }
+
+    handleGeneratePathsObtained = (generatedPoints) => {
         //this.props.homeCallback(this.testingGeneratedPoints,this.totalDays); // for testing
+        this.setState((prevState) => {
+            return {
+                isGeneratingPath:false
+            };
+        });
         this.props.homeCallback(generatedPoints,this.totalDays);
     }
 
@@ -190,8 +220,27 @@ export class TravelOverview extends React.Component {
         this.onSavePlacesButtonClick(pointId, day, -1);
     }
 
-    handleReset = () => {
-        this.props.form.resetFields();
+
+    addStartPoint = (obj) => {
+        let replaced = false;
+        for (let i = 0; i < this.startPoints.length; i++) {
+            const day = this.startPoints[i].day;
+            if (day === obj.day) { // if exist, replace
+                this.startPoints[i] = obj;
+                replaced = true;
+                break;
+            }
+        }
+        if (!replaced) {
+            this.startPoints.push(obj);
+        }
+
+        this.setState((prevState) => {
+            return {
+                points:[...this.poiPoints, ...this.startPoints],
+            };
+        });
+
     }
 
     render() {
@@ -215,7 +264,7 @@ export class TravelOverview extends React.Component {
                       arrowColor: '#4F6E96',
                       //overlayColor: 'rgba(79, 26, 0, 0.4)',
                       backgroundColor: 'white',
-                      primaryColor: '#4F6E96',
+                      primaryColor: '#3A94F5',
                       textColor: 'black',
                       width: 300,
                       zIndex: 1000,
@@ -230,36 +279,45 @@ export class TravelOverview extends React.Component {
                 <WrappedTravelMap 
                     googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3CEh9DXuyjozqptVB5LA-dN7MxWWkr9s&v=3.exp&libraries=geometry,drawing,places"
                     loadingElement={<div style={{ height: `100%` }} />}
-                    containerElement={<div style={{ height: `500px` }} />}
+                    containerElement={<div style={{ height: `800px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
                     points={this.state.points}
                     totalDays={this.totalDays}
                     handleOnDayChange={this.handleOnDayChange}
+                    isLoadingInit={this.state.isLoadingInit}
+                    isGeneratingPath={this.state.isGeneratingPath}
                 />
 
            
                 </div>
-                <div className="info" id="overview-info"> 
-                        <div style={{position:"absolute",marginLeft:"10px"}}>
+                <div className="info" id="overview-info">
+                    {
+                        this.totalDays>0&&<div style={{position:"absolute",marginLeft:"10px",top:"10px"}}
+                                               className="banger">You chose a <b>{this.totalDays}</b> days Trip!
+
+                        </div>
+                    }
+                        <div style={{position:"absolute",marginLeft:"10px", top:"60px"}}>
                         <Dropdown overlay={dayOptionsMenu} trigger={['click']}>
-                            <Button className="button-font" id="day-options" style={{userSelect: 'none'}}>Day Options</Button>
+                            <Button className="button-font" id="day-options" style={{userSelect: 'none'}}>Total Days</Button>
                         </Dropdown>
                         </div>
-                        {
-                          this.totalDays>0&&<div style={{position:"absolute",marginLeft:"10px",top:"40px"}}
-                            className="banger">You chose a <b>{this.totalDays}</b> days Trip!
-                            
-                            </div>
-                        }
+
                         
-                        <div style={{visibility: this.state.isDayOptionsChosen ? 'visible' : 'hidden',marginTop:'80px',marginLeft:"10px"}}>
+                        <div style={{visibility: this.totalDays > 0 ? 'visible' : 'hidden', marginTop:'80px',marginLeft:"10px"}}>
                             <TravelStartDayInput totalDays={this.totalDays}
                                                  userID={this.props.userID}
-                                                 handleGenerateButtonPressed={this.handleGeneratePathsButtonPressed}/>
+                                                 startPoints={this.startPoints}
+                                                 onPlaceChanged={this.addStartPoint}
+                                                 onGenerateButtonPressed={this.handleGenerateButtonPressed}
+                                                 onGeneratePathsObtained={this.handleGeneratePathsObtained}/>
                         </div>
-                        <div className="help" style={{ position:"absolute", bottom:"40px", marginLeft:"10px", textAlign:"left"}}><Button onClick={this.handleJoyrideCallback}><Icon type="question-circle"/>Get help from here!</Button> </div> 
+
                 </div>
+                <div className="help" style={{ position:"absolute", bottom:"0px", marginLeft:"1445px", textAlign:"left" }}>
+                    <Button onClick={this.handleJoyrideCallback} style={{"background-color": "lightGrey", }}><Icon type="question-circle"/>Help</Button>
                 </div>
+            </div>
 
                 
 
