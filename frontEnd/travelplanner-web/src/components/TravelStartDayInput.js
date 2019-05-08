@@ -3,6 +3,7 @@ import {Dropdown} from './Dropdown';
 import {Autocomplete} from "./Autocomplete";
 import { API_ROOT } from "../constants"
 import {notification,Button} from  'antd'
+import {LOC_SHAKE} from "../constants"
 
 //import 'antd/dist/antd.css';
 //import './index.css';
@@ -16,11 +17,17 @@ export class TravelStartDayInput extends React.Component {
 
     message= ""
     startPoints = []; // with order
-    prevDay = 0;
-    curObj = {};
+    curDay = 0;
 
     componentDidMount() {
         console.log("TravelStartDayInput did mount");
+
+
+
+    }
+
+    componentDidUpdate() {
+        console.log("TravelStartDayInput did update");
         if (this.props.totalDays > 0) {
             this.startPoints = Array(this.props.totalDays).fill({});
 
@@ -28,33 +35,7 @@ export class TravelStartDayInput extends React.Component {
                 const startPoint = this.props.startPoints[i];
                 const {day} = startPoint;
                 this.startPoints[day] = startPoint;
-                if (day === 0) {
-                    this.curObj = startPoint;
-                }
 
-            }
-        }
-
-
-    }
-
-    componentDidMount() {
-        console.log("TravelStartDayInput did mount");
-
-    }
-
-    componentDidUpdate() {
-        console.log("TravelStartDayInput did update");
-        if (this.props.totalDays > 0 && this.startPoints.length == 0) {
-            this.startPoints = Array(this.props.totalDays).fill({});
-
-            for (let i = 0; i < this.props.startPoints.length; i++) {
-                const startPoint = this.props.startPoints[i];
-                const {day} = startPoint;
-                this.startPoints[day] = startPoint;
-                if (day === 0) {
-                    this.curObj = startPoint;
-                }
             }
         }
     }
@@ -72,56 +53,43 @@ export class TravelStartDayInput extends React.Component {
             lon: place.geometry.location.lng(),
             name: place.name,
             imageURL: "",
-            day: this.prevDay,
+            day: this.curDay,
             intradayIndex: 0
         }
         // console.log(obj);
         // update prev to startPoints
-        this.startPoints[this.prevDay] = obj;
-        this.curObj = obj;
+        this.startPoints[this.curDay] = obj;
 
         // mark start point on map
         this.props.onPlaceChanged(obj);
     }
 
     handleDropdownClick = (day) => {
-        this.curObj = this.startPoints[day];
+        this.curDay = day;
 
-        for (let i = this.prevDay + 1; i < this.props.totalDays; i++) {
-            if (Object.keys(this.startPoints[i]).length === 0) {
-                this.startPoints[i] = this.startPoints[i - 1];
-            } else {
-                break;
-            }
-        }
         // clear autocomplete input
         this.auto.autocompleteInput.current.value = "";
-
-        this.prevDay = day;
-
     }
 
     handleGenerateButtonPressed = () => {
-        //TODO: validation firstday
-
-        if(this.startPoint == undefined || this.startPoint[0] == undefined || Object.keys(this.startPoints[0]).length === 0){
+        //validation firstday
+        if(this.startPoints == undefined || this.startPoints[0] == undefined || Object.keys(this.startPoints[0]).length === 0){
             //console.log(this.startPoints);
             //console.log(this.day);
             openNotificationWithIcon('warning')
         }
 
-        this.props.onGenerateButtonPressed();
-
-        for (let i = this.prevDay + 1; i < this.props.totalDays; i++) {
+        // interpolation
+        for (let i = 1; i < this.props.totalDays; i++) {
             if (Object.keys(this.startPoints[i]).length === 0) {
-                this.startPoints[i] = this.startPoints[i - 1];
-            } else {
-                break;
+                this.startPoints[i] = JSON.parse(JSON.stringify(this.startPoints[i - 1])); // deep copy
+                this.startPoints[i].day = i;
             }
         }
 
+
         const endPoint = 'GeneratePaths';
-        //console.log(JSON.stringify({"userID": this.props.userID, "startPlaces": this.startPoints}));
+        console.log(JSON.stringify({"userID": this.props.userID, "startPlaces": this.startPoints}));
       
         fetch(`${API_ROOT}/${endPoint}`, {
             method: 'POST',
@@ -140,8 +108,6 @@ export class TravelStartDayInput extends React.Component {
         })
 
 
-        //TODO: validation all days
-
     }
 
 
@@ -156,8 +122,10 @@ export class TravelStartDayInput extends React.Component {
             <div className="Address" style={{position:"absolute", marginTop:"50px"}} >
                 <Autocomplete onPlaceChanged={this.handlePlaceChanged}
                               ref={(input) => { this.auto = input; }}/>
-                <Button className="button-font generate" style={{position:"absolute", marginTop:"50px"}} onClick={this.handleGenerateButtonPressed}>Travel Routes</Button>
-               
+
+
+            <Button className="button-font generate" style={{position:"absolute", marginTop:"50px"}}
+                        onClick={this.handleGenerateButtonPressed}>Recommend Routes</Button>
             </div>
 
         </div>
