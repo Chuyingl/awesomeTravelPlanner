@@ -165,7 +165,7 @@ export class Home extends React.Component{
 
     render() {
       return (
-        <div className="App Re-App Page" style={{position:"relative", height:"500px"}}>
+        <div className="App Re-App Page" >
             <div id="nav_contain" style={{position:"absolute"}}>
             {this.renderNavigation()}
 

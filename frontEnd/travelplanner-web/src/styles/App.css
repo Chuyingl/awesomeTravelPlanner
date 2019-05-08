@@ -3,8 +3,12 @@
 .App {
   text-align: center;
   position: relative;
-  height:1000px;
+  height:100%;
+  width: 100%;
    
+}
+.App-body{
+  height:100%;
 }
 
 
@@ -88,10 +92,9 @@
 }
 .top_container{
   top:48px;
-
   border-width: 4px;
   position: relative;
-  height: 800px;
+  height: 100%;
   width: 100%;
   display: flex;
 

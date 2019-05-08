@@ -43,3 +43,8 @@ code {
   padding:0;
 
 }
+
+#root{
+  height:100%;
+  width: 100%;
+}

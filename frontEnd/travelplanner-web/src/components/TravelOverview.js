@@ -279,7 +279,7 @@ export class TravelOverview extends React.Component {
                 <WrappedTravelMap 
                     googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3CEh9DXuyjozqptVB5LA-dN7MxWWkr9s&v=3.exp&libraries=geometry,drawing,places"
                     loadingElement={<div style={{ height: `100%` }} />}
-                    containerElement={<div style={{ height: `800px` }} />}
+                    containerElement={<div style={{ height: `100%` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
                     points={this.state.points}
                     totalDays={this.totalDays}

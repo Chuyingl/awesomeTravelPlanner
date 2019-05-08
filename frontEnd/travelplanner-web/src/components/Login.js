@@ -42,7 +42,7 @@ class NormalLoginForm extends React.Component {
         return (
             <div className="main_page" >
                 <video className='videoTag' autoPlay loop muted style={{zIndex:-1}}>
-                    <source src={sample} type='video/mp4'/>
+                    <source src={sample} type='video/mp4' />
                 </video>
             <div className="login_container">
             <Form onSubmit={this.handleSubmit} className="login-form">
