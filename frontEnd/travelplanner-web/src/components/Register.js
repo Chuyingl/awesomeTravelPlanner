@@ -93,9 +93,6 @@ class RegisterationForm extends React.Component {
         const sample = "https://i.imgur.com/ydH7ULN.mp4";
         return (
             <div className="main_page" >
-            <video className='videoTag' autoPlay loop muted style={{zIndex:-1}}>
-                <source src={sample} type='video/mp4'/>
-            </video>
             <div className="register-container">
             <Form className="register-form" {...formItemLayout} onSubmit={this.handleSubmit}>
                  

@@ -23,6 +23,11 @@ const openNotificationWithIcon2 = (type, day) => {
     message: `There is no plan for day ${day}!`,
   });
 };
+const openNotificationWithIcon3 = (type) => {
+  notification[type]({
+    message: `Please select length of days first`,
+  });
+};
 //.................. Steps of user tour guide..................//
 const steps = [
   {
@@ -106,10 +111,13 @@ export class TravelPlan extends React.Component {
     var temp = this.props.points.filter(place => (place.day + 1).toString() === "1");
     var start = temp.filter(place => (place.type) === "start");
     var legs = temp.filter(place => (place.type) === "poi")
+    if(this.props.points.length===0){
+       openNotificationWithIcon3('info');
+      }
     // Pop out notification, if there is no place and woute for day 1
-    if (legs.length === 0) {
-      openNotificationWithIcon2('info', 1);
-    }
+    //if (legs.length === 0) {
+      //openNotificationWithIcon2('info', 1);
+    //}
     this.setState(
       {
         points: this.props.points,
@@ -326,7 +334,7 @@ render() {
           directions1={this.state.directions1}
         //markers={this.start_points.markers}
         />
-        <div className="  contain-color " style={{ position: "absolute", top: "30px", height: "250px", left: "100%", "border-radius": "5px", display: "flex", overflow: "auto" }} >
+        <div className="  contain-color " style={{ position: "absolute", zIndex:1000, top: "30px", height: "250px", left: "100%", "border-radius": "5px", display: "flex", overflow: "auto" }} >
           <Radio.Group id="button-group" onChange={this.filtermarkers} size={"large"} >
             {
               [...Array(this.props.totalDays).keys()].map(i =>
@@ -352,7 +360,7 @@ render() {
 
         </div>
       </div>
-      <div className="help" style={{ position: "absolute", bottom: "0px", marginLeft: "1350px", textAlign: "left" }}>
+      <div className="help" style={{ position:"absolute", bottom:"10px", marginLeft:"66%", textAlign:"left" }}>
         <Button onClick={this.handleJoyrideCallback} style={{ "background-color": "lightGrey", }}><Icon type="question-circle" />Help</Button>
       </div>
     </div>

@@ -91,14 +91,15 @@ export class TravelOverview extends React.Component {
     componentDidMount() {
         console.log("TravelOverview did mount");
         this.totalDays = this.props.totalDays;
+        const temp= this.props.points.filter(place => (place.day) < this.totalDays)
+        console.log(temp);
         this.startPoints = this.props.points.filter(place => place['type'] === "start")
-        this.setState((prevState) => {
-            return {
-                points: this.props.points
-            }
-        })
+        this.setState(
+            {
+              points: temp,
+    })
+   }
 
-    }
 
     componentWillUnmount() {
         console.log("TravelOverview will unmount");
@@ -107,7 +108,7 @@ export class TravelOverview extends React.Component {
     onDayOptionsChosen = (e) => {
         this.totalDays = parseInt(e.key) + 1;
         const endPoint = 'InitialRecommend';
-        //console.log(`days: ${this.totalDays}`);
+        console.log(`days: ${this.totalDays}`);
         this.setState((prevState) => {
             return {
                 isLoadingInit: true
@@ -117,13 +118,15 @@ export class TravelOverview extends React.Component {
             method: 'GET',
         }).then((response) => {
             if (response.ok) {
+                console.log("load ok")
                 return response.json();
             }
         }).then((data) => {
-            //console.log(data);
+            var temp= data.places.filter(place => (place.day) < this.totalDays)
+            console.log(temp);
             this.setState((prevState) => {
                 return {
-                    points: data.places,
+                    points: temp,
                     //isLoadingInit: false
                 }
             })
@@ -231,7 +234,7 @@ export class TravelOverview extends React.Component {
                 onClick={this.onDayOptionsChosen}
             >
                 {
-                    [...Array(15).keys()].map((i) =>
+                    [...Array(6).keys()].map((i) =>
                         <Menu.Item key={i}>{`${i + 1} Days`}</Menu.Item>
                     )
                 }
@@ -291,7 +294,7 @@ export class TravelOverview extends React.Component {
                         </div>
 
                 </div>
-                <div className="help" style={{ position:"absolute", bottom:"0px", marginLeft:"1445px", textAlign:"left" }}>
+                <div className="help" style={{ position:"absolute", bottom:"10px", marginLeft:"66%", textAlign:"left" }}>
                     <Button onClick={this.handleJoyrideCallback} style={{"background-color": "lightGrey", }}><Icon type="question-circle"/>Help</Button>
                 </div>
             </div>

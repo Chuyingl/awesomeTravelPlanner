@@ -22,6 +22,7 @@
 .App-header {
   background-color:#121b30;
   height: 95px;
+  width: 100%;
   opacity: 0.95;
   color: white;
   /*min-height: 100vh;*/

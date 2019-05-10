@@ -10,7 +10,7 @@ const SortableItem = SortableElement(({value, index}) =>
 );
 
 const SortableList = SortableContainer(({items, start}) => {
-  var startname=start[0].name;
+  var startname="hotel";
   return (
     typeof(items[0])!="undefined"&&typeof(start)!="undefined"&&items[0]!=null&&start!=null&&<List  header={<h1 className="banger" style={{fontSize:"30px"}}><b>Day{items[0].day+1}</b></h1>} bordered>
       <List.Item className="items-font"><Typography.Text>{<span className="list-title items-font"><b style={{color:"#3A94F5"}}> Start Point: </b></span>}</Typography.Text>{startname}</List.Item>

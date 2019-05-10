@@ -11,7 +11,7 @@
 .login_container{
     position: absolute;
     background-color:#121b30;
-    top: 20%;
+    top: 30%;
     left:38%;
     height: 250px;
     width: 450px;
@@ -31,6 +31,7 @@
 
 .videoTag{
     top:0px;
-    height: 100%;
-    width: 100%;
+    left:0px;
+    height: 100% !important;
+    width: 100% !important;
 }

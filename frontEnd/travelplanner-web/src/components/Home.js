@@ -38,7 +38,7 @@ export class Home extends React.Component{
                 const savedPoints = data.places.filter(place => place['type'] === "poi");
                 const startPoints = data.places.filter(place => place['type'] === "start");
 
-                if (startPoints === undefined || startPoints === null || startPoints.length === 0) {
+                if (startPoints === undefined || startPoints === null || startPoints.length === 0||savedPoints.length===0){
                     this.setState((prevState) => { return {disableTabs: true}});
                 } else {
                     this.setState((prevState) => {
@@ -50,7 +50,7 @@ export class Home extends React.Component{
                 this.totalDays = Math.max.apply(Math, savedPoints.map((o) => {
                     return o.day
                 })) + 1;
-                this.points = data.places;
+                this.points = savedPoints;
 
             }
 
@@ -114,7 +114,7 @@ export class Home extends React.Component{
         }
         this.setState((prevState) => {
             return {
-                disableTabs: true,
+                disableTabs: false,
             };
         });
 

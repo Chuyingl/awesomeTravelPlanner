@@ -4,7 +4,7 @@
    margin-left: 20px;
    overflow: auto;
    background: rgba(18, 27, 48, 0.8);;
-   width: 460px;
+   width: 300px;
    padding: 50px;
    padding-top:25px;
 
@@ -17,5 +17,5 @@
 
 #plan-info{
    left:75%;
-   height: 800px;
+   height: 100%;
 }
