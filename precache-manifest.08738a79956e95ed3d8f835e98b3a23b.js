@@ -4,8 +4,8 @@ self.__precacheManifest = [
     "url": "/awesomeTravelPlanner/static/media/start-c6-marker.77c6d5c3.svg"
   },
   {
-    "revision": "3d254ab9b639dbdc52ec",
-    "url": "/awesomeTravelPlanner/static/css/main.bfdceef7.chunk.css"
+    "revision": "99a74bf4e1a3c413a366",
+    "url": "/awesomeTravelPlanner/static/css/main.875647ea.chunk.css"
   },
   {
     "revision": "43e6738fdf793baa32ec",
@@ -80,8 +80,8 @@ self.__precacheManifest = [
     "url": "/awesomeTravelPlanner/static/media/start-c5-marker.0d3f342a.svg"
   },
   {
-    "revision": "3d254ab9b639dbdc52ec",
-    "url": "/awesomeTravelPlanner/static/js/main.8fae0ecb.chunk.js"
+    "revision": "99a74bf4e1a3c413a366",
+    "url": "/awesomeTravelPlanner/static/js/main.72d7e11e.chunk.js"
   },
   {
     "revision": "3629785bce72472da4043659572e034d",
@@ -156,7 +156,7 @@ self.__precacheManifest = [
     "url": "/awesomeTravelPlanner/static/css/2.b568c97b.chunk.css"
   },
   {
-    "revision": "c01d7d2222aa5c8e475019c19a2fa508",
+    "revision": "2c08b91f3f90ea0b1c2edfeff397dfec",
     "url": "/awesomeTravelPlanner/index.html"
   }
 ];
