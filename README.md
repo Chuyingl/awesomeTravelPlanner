@@ -9,9 +9,11 @@ This web provides users travel plan service in New York City. Users can get init
 ![Log in Page](https://github.com/Chuyingl/Items-Recommendation-Web/blob/master/login.PNG)
 ## Develop with
 ### Front-end Design
-* REACY
-* JavaScript
-* AJAX
+* React
+* Google Map API
+* Ant Design
+* NPM
+
 
 
 
