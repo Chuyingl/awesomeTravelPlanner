@@ -3,10 +3,6 @@ This web provides users travel plan service in New York City. Users can get init
 ## Project Demo
 **You can visit this web from here :smiley:** **[[Link]](https://chuyingl.github.io/awesomeTravelPlanner/)**
 
-![Items Page](https://github.com/Chuyingl/Items-Recommendation-Web/blob/master/finditems.PNG)
-
-
-![Log in Page](https://github.com/Chuyingl/Items-Recommendation-Web/blob/master/login.PNG)
 ## Develop with
 ### Front-end Design
 * React
