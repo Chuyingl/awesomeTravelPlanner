@@ -262,7 +262,7 @@ export class TravelOverview extends React.Component {
                   continuous={true} />}
                 <div className="map_container map">
                 <WrappedTravelMap 
-                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3CEh9DXuyjozqptVB5LA-dN7MxWWkr9s&v=3.exp&libraries=geometry,drawing,places"
+                    googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPpNmXCFqrlF4gdU3gEMoGRvqCaqSpyk4&libraries=geometry,drawing,places"
                     loadingElement={<div style={{ height: `100%` }} />}
                     containerElement={<div style={{ height: `100%` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
